@@ -1,0 +1,49 @@
+Manager:
+  experiment_name: PhaseRecognition
+  save_point: runs/
+  gpu: [0,1]
+  seed: 1234
+
+Dataset:
+  img_size: 512
+  batch_size: 16
+  img_folder:
+  load_recursirvely: True
+  validation_ratio: 0.2  # From the training size
+  num_workers: 16  # Workers used for parallel data loading
+  pin_memory: True  # Place loaded data in the CPU to GPU buffer.
+
+
+
+Validation:
+  validation_step: 500
+  max_batch_validation: 4
+
+Training:
+  nb_epochs: 50
+  loss_type: CE+dice
+  lr: 0.001
+  b1: 0.9
+  b2: 0.99
+  weight_decay: 0
+  save_iteration: 20000
+  weighted_loss: True
+  train_flag: True
+
+Testing:
+  log_file: test_results.log
+  save_prediction: True
+  eval_performance: True
+  batch_size: 8
+
+CNN:
+  pretrained: True # Pretrained version
+  model: deeplabv3_resnet101
+  # The following variable is path to an already trained model set of weights. If set,
+  # it will override the reading of the a pretrained network (above option).
+  # An empty string disables the option.
+  # eg: trained_model_path: ../../runs/CityScape-Perspective/trained_model/
+  trained_model_path:
+  n_classes: 10
+  continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
+
