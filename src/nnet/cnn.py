@@ -7,6 +7,7 @@ def _get_network(network):
     return {
         "deeplabv3_resnet101": models.deeplabv3_resnet101,
         "fcn_resnet101": models.fcn_resnet101,
+        "inception": models.inception_v3,
     }[network]
 # Il faudra éventuellement remplacer ces modèles par des modèles de classification (ici, ce sont des modèles de segmen-
 # tation.
