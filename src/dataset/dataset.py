@@ -4,8 +4,9 @@ from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import cv2
 import torch
+import re
 
-from utils.io import path_leaf, load_image
+from src.utils.io import path_leaf, load_image
 
 fileExtensions = ["jpg", "jpeg", "png", "tiff"]
 
@@ -16,7 +17,7 @@ class ImagesDataset(Dataset):
     et la phase associée, mais cela prend de réfléchir à la gestion de la phase. Une facon de faire serait de stocker
     cette information dans un fichier qui puisse être lu par pandas. A chaque image
     """
-    def __init__(self, path_img, shape=(512, 512), recursive=True):
+    def __init__(self, groundtruth, path_img, shape=(512, 512), recursive=True): #passer le tableau ou le chemin
         """
         A compléter éventuellement pour prendre en entrée le chemin vers le fichier des phases (groundtruth)
         :param path_img:
@@ -26,22 +27,24 @@ class ImagesDataset(Dataset):
         super(ImagesDataset, self).__init__()
         if isinstance(shape, int):
             shape = (shape, shape)
-        self.path_img = path_img
+        self.path_img = path_img #adresse du DOSSIER d'images (à boucler ?)
         self.shape = shape
         self.da_core = None  # Data augmentation instance. Only initialized if required
-
+        
+        self.groundtruth = groundtruth
+        
         self.img_filepath = []
         self.mask_filepath = []
 
         for extension in fileExtensions:
             self.img_filepath.extend(glob.glob(self.path_img + "*." + extension, recursive=recursive))
 
-        img_filenames = [path_leaf(path).split('.')[0] for path in self.img_filepath]
+        img_filenames = [path_leaf(path).split('.')[0] for path in self.img_filepath] #Liste de toutes les images ['frame0', 'frame1', ...]
 
         self.img_filepath = np.asarray(self.img_filepath)
         img_argsort = np.argsort(img_filenames)
-        self.img_filepath = self.img_filepath[img_argsort]
-
+        self.img_filepath = self.img_filepath[img_argsort] #array de tous les paths (\data01\frameX.jpg), pas dans l'ordre
+        
         """
         Valeurs de normalisation à adopter si tu utilises un modèle de torchvision
         """
@@ -73,12 +76,14 @@ class ImagesDataset(Dataset):
         :param item:
         :return:
         """
-        img = load_image(self.img_filepath[item])
+        img = load_image(self.img_filepath[item]) #img_filepath contient à la fois le n° du dossier et le n° de frame
         img = cv2.resize(img, dsize=self.shape).astype(np.uint8)
         img = img.transpose((2, 0, 1)).astype(np.float32) / 255.
         img = self.normalize(img)
 
-        return torch.from_numpy(img)
+        phase = self.read_phase(self.img_filepath[item])
+        
+        return torch.from_numpy(img), phase #retourne la phase en tant qu'entier
         """
         Il pourrait être pratique que la fonction renvoie à la fois l'image et la vérité terrain,
         return torch.from_numpy(img), torch.from_numpy(phase)
@@ -114,3 +119,28 @@ class ImagesDataset(Dataset):
             np.save(classes_weight_path, class_weights)
             print('Weights stored in ', classes_weight_path)
         return class_weights
+    
+    def read_phase(self, filepath):
+        
+        #find the number X of the video and the number Y of the image, saved in a file dataX with the name Y
+        temp = re.findall(r'\d+', filepath)
+        res = list(map(int, temp))
+        X = res[-2]
+        Y = res[-1]
+
+        if X == 1:
+            B = (self.groundtruth.at[Y-1,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
+        else:
+            B = (self.groundtruth.at[Y-1,"Frame,Steps." + str(X)])
+         
+        temp = re.findall(r'\d+', B) 
+        res = list(map(int, temp)) #getting numbers from the string B = "frame_number,step_number" 
+        
+        #if there was no Steps value specified, then there is no surgical phase on the image
+        if len(res) == 2:
+            Phase = res[1]
+        else:
+            Phase = 0
+        
+        return(Phase)
+        
