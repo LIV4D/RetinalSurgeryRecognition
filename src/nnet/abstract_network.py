@@ -4,7 +4,7 @@ import numpy as np
 from torch import nn
 from os.path import join
 
-from utils.io import create_folder, get_most_recent_file
+from src.utils.io import create_folder, get_most_recent_file
 
 
 def check_nan(state_dict):
