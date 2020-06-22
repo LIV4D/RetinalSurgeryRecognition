@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import pandas as pd
 from torch.utils.data import DataLoader
 
 from .dataset import ImagesDataset
@@ -10,15 +11,18 @@ class DatasetManager:
         self.config = config
         self.batch_size = self.config['batch_size']
         self.img_size = self.config['img_size']
-        self.dataset_args = {'path_img': self.config['img_folder'],
+        self.groundtruth_path = self.config['groundtruth_path']
+        self.dataset_args = {'path_img': self.config['img_folder'], #bouclage sur les dossiers ???
                              'shape': self.img_size,
                              'recursive': self.config['load_recursirvely']}
-        self.dataset = ImagesDataset(**self.dataset_args)
+        self.groundtruth = self.get_ground_truth_file(self.groundtruth_path)
+        self.dataset = ImagesDataset(self.groundtruth, **self.dataset_args) #on passe le tableau groundtruth directement dans la classe ImagesDataset
         print('Found %i images for current experimentation' % len(self.dataset))
         """
         The validation set will only be initialed if build_validation_set is called (for training, not testing)
         """
         self.validation_dataset = None
+        
 
     def build_validation_set(self):
         len_dataset = len(self.dataset)
@@ -28,7 +32,7 @@ class DatasetManager:
         valid_indices = indices[:valid_len]
         train_indices = indices[valid_len:]
         self.dataset.subset(train_indices)
-        self.validation_dataset = ImagesDataset(**self.dataset_args)
+        self.validation_dataset = ImagesDataset(self.groundtruth, **self.dataset_args)
         self.validation_dataset.subset(valid_indices)
 
 
@@ -57,3 +61,8 @@ class DatasetManager:
                               num_workers=self.config['num_workers'])
         else:
             raise ValueError('The validation dataset has not been created!')
+            
+    def get_ground_truth_file(self,groundtruth_path): #donner l'adresse du fichier .csv contenant les Frames,Steps
+        return(pd.read_csv(groundtruth_path, sep = '[\t;]'))
+        
+        
