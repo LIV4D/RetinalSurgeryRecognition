@@ -17,7 +17,7 @@ class ImagesDataset(Dataset):
     et la phase associée, mais cela prend de réfléchir à la gestion de la phase. Une facon de faire serait de stocker
     cette information dans un fichier qui puisse être lu par pandas. A chaque image
     """
-    def __init__(self, groundtruth, path_img, shape=(512, 512), recursive=True): #passer le tableau ou le chemin
+    def __init__(self, groundtruth_list, path_img, shape=(512, 512), recursive=True): #passer le tableau ou le chemin
         """
         A compléter éventuellement pour prendre en entrée le chemin vers le fichier des phases (groundtruth)
         :param path_img:
@@ -31,7 +31,7 @@ class ImagesDataset(Dataset):
         self.shape = shape
         self.da_core = None  # Data augmentation instance. Only initialized if required
         
-        self.groundtruth = groundtruth
+        self.groundtruth_list = groundtruth_list
         
         self.img_filepath = []
         self.mask_filepath = []
@@ -122,16 +122,14 @@ class ImagesDataset(Dataset):
     
     def read_phase(self, filepath):
         
-        #find the number X of the video and the number Y of the image, saved in a file dataX with the name Y
+        #find the number X of the video and the number Y of the image, saved in a file dataX with the name frameY
         temp = re.findall(r'\d+', filepath)
         res = list(map(int, temp))
-        X = res[-2]
+        X = res[-2] - 1  #les indices de la list groundtruth démarrent à 0 et les fichiers dataX démarrent à 1
         Y = res[-1]
-
-        if X == 1:
-            B = (self.groundtruth.at[Y-1,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
-        else:
-            B = (self.groundtruth.at[Y-1,"Frame,Steps." + str(X)])
+        groundtruth = self.groundtruth_list[X]
+        
+        B = (groundtruth.at[Y-1,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
          
         temp = re.findall(r'\d+', B) 
         res = list(map(int, temp)) #getting numbers from the string B = "frame_number,step_number" 
