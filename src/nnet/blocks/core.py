@@ -15,7 +15,7 @@ class ConvLayer(nn.Module):
         layers = [nn.Conv2d(in_channels=int(input_chan),
                             out_channels=output_chan,
                             kernel_size=kernel_size,
-                            padding=kernel_size // 2,
+                            padding=(kernel_size[0] // 2, kernel_size[1] // 2),
                             stride=1,
                             bias=bias)]
 
