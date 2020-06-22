@@ -1,13 +1,14 @@
 from torch import nn
 import torchvision.models.segmentation as models
-from nnet.abstract_network import AbstractNet
+import torchvision.models as allmodels
+from src.nnet.abstract_network import AbstractNet
 from .blocks.core import ConvLayer
 
 def _get_network(network):
     return {
         "deeplabv3_resnet101": models.deeplabv3_resnet101,
         "fcn_resnet101": models.fcn_resnet101,
-        "inception": models.inception_v3,
+        "inception": allmodels.inception_v3,
     }[network]
 # Il faudra éventuellement remplacer ces modèles par des modèles de classification (ici, ce sont des modèles de segmen-
 # tation.
