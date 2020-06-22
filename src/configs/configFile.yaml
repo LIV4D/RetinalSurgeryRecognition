@@ -7,7 +7,7 @@ Manager:
 Dataset:
   img_size: 512
   batch_size: 16
-  groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Videos\train.csv'
+  groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth'
   img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\data01\'
   load_recursirvely: True
   validation_ratio: 0.2  # From the training size
