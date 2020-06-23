@@ -69,7 +69,6 @@ class DatasetManager:
         for dir in dirList:
             A = pd.read_csv(groundtruth_path + '\\' + dir, sep = '[\t;]')
             groundtruth_list.append(A)
-            break #pour stopper après le 1er dossier
         return groundtruth_list #renvoie une liste contenant les DataFrame 
     
         
