@@ -8,7 +8,7 @@ Dataset:
   img_size: 512
   batch_size: 16
   groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth'
-  img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\data01\'
+  img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Data\'
   load_recursirvely: True
   validation_ratio: 0.2  # From the training size
   num_workers: 0  # Workers used for parallel data loading MODIFIED, WAS 16
