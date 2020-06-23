@@ -34,10 +34,9 @@ class ImagesDataset(Dataset):
         self.groundtruth_list = groundtruth_list
         
         self.img_filepath = []
-        self.mask_filepath = []
 
-        for extension in fileExtensions:
-            self.img_filepath.extend(glob.glob(self.path_img + "*." + extension, recursive=recursive))
+        for file in os.listdir(self.path_img):
+            self.img_filepath.extend(glob.glob(self.path_img + file + '\\' + '*.jpg', recursive=recursive))
 
         img_filenames = [path_leaf(path).split('.')[0] for path in self.img_filepath] #Liste de toutes les images ['frame0', 'frame1', ...]
 
@@ -67,7 +66,7 @@ class ImagesDataset(Dataset):
         :param img:
         :return:
         """
-        img = (img.astype(np.float32) - self.normalize_std) / self.normalize_mean
+        img = (img.astype(np.float32) - self.normalize_mean) / self.normalize_std
         return img
 
     def __getitem__(self, item):
@@ -129,7 +128,7 @@ class ImagesDataset(Dataset):
         Y = res[-1]
         groundtruth = self.groundtruth_list[X]
         
-        B = (groundtruth.at[Y-1,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
+        B = (groundtruth.at[Y,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
          
         temp = re.findall(r'\d+', B) 
         res = list(map(int, temp)) #getting numbers from the string B = "frame_number,step_number" 
