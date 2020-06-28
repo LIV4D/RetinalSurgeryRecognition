@@ -32,9 +32,11 @@ class MyNetwork(AbstractNet):
                 p.requires_grad = False
 
         # Un exemple d'utilisation d'une brique concue préalablement et réutilisable ailleurs dans le code.
-        fcn = nn.Sequential(ConvLayer(1024, 256, kernel_size=(3, 3), dropout=0.1, activation='relu', norm='batch'),
-                            nn.Conv2d(256, self.config['n_classes'], kernel_size=(1, 1), stride=(1, 1)))
+        """fcn = nn.Sequential(ConvLayer(1024, 256, kernel_size=(3, 3), dropout=0.1, activation='relu', norm='batch'),
+                            nn.Conv2d(256, self.config['n_classes'], kernel_size=(1, 1), stride=(1, 1)))"""     
+        
+        fcn = nn.Sequential(nn.Linear(1000, self.config['n_classes'], bias = True))
         self.network.aux_classifier = fcn
 
     def forward(self, input_tensors):
-        return self.network(input_tensors)['aux']
+        return self.network(input_tensors)[1] #was ['aux'] c'est un tuple alors que ça ne devrait pas ???
