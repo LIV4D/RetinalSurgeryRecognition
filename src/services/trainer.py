@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import os
 import yaml
+from math import log2
 from src.services.abstract_manager import Manager
 
 
@@ -35,6 +36,8 @@ class Trainer(Manager):
             img = batch[0]
             gts = batch[1]
             # todo: calculer la propagation forward de ton réseau (output = self.network(img) probablement)
+            out = self.network(img)
+            loss = self.loss(out, gts)
             # Si nécessaire, calculer la loss
 
             if index % self.config['Validation']['validation_step'] == 0:
@@ -50,7 +53,7 @@ class Trainer(Manager):
                         filename = os.path.join(self.output_dir, filename)
                         self.network.save_model(filename, optimizers=self.opt)
 
-            # self.backward_and_step(loss) On appel la backpropagation
+            self.backward_and_step(loss) #On appel la backpropagation
 
     def train(self):
         """
@@ -71,8 +74,17 @@ class Trainer(Manager):
         :return: The average validation loss (scalar)
         """
         nnet_out = []
-        for i, batch in enumerate(self.datasetManager.get_validation_dataloader()):
-            pass # todo A compléter au besoin
+        Validation = self.datasetManager.get_validation_dataloader()
+        length = len(Validation)
+        for i, batch in enumerate(Validation):
+            index = current_index*length+i
+            batch = self.to_device(batch)
+            img = batch[0]
+            gts = batch[1]
+            out = self.network(img)
+            loss = self.loss(out,gts)
+            return loss
+#            pass # todo A compléter au besoin
 
 
     def setup_optims(self):
@@ -94,8 +106,7 @@ class Trainer(Manager):
         tribution of the classes on the training set.
         :return:
         """
-        # Todo on configure la variable self.loss en fonction du fichier de configuration. Cette variable sera utilisée
-        # lors de la backpropagation
+        self.loss = nn.CrossEntropyLoss()
 
     def backward_and_step(self, loss):
         """
