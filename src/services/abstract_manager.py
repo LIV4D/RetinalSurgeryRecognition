@@ -21,7 +21,7 @@ class Manager:
         self.set_seed() # Fix la seed, pour assurer la reproducibilité des expériences
         self.setup_gpus()
         self.exp_path = os.path.join(self.manager_config['save_point'], self.manager_config['experiment_name'])
-        self.tb_writer = SummaryWriter(os.path.join(self.exp_path, 'tensorboard/')) # On utilise tensorBoard pour le suivi des expériences
+        self.tb_writer = SummaryWriter(os.path.join(self.exp_path, 'tensorboard\\')) # On utilise tensorBoard pour le suivi des expériences
         self.network.savepoint = os.path.join(self.exp_path, 'trained_model') # Point de sauvegarde du réseau
         self.softmax = torch.nn.Softmax(dim=1)
         if self.device != 'cpu':
