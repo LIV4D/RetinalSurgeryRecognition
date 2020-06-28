@@ -22,7 +22,7 @@ class DatasetManager:
         """
         The validation set will only be initialed if build_validation_set is called (for training, not testing)
         """
-        self.validation_dataset = None
+        self.validation_dataset = self.build_validation_set #was None
         
 
     def build_validation_set(self):
@@ -67,7 +67,7 @@ class DatasetManager:
         dirList = os.listdir(groundtruth_path)
         groundtruth_list = []
         for dir in dirList:
-            A = pd.read_csv(groundtruth_path + '\\' + dir, sep = '[\t;]')
+            A = pd.read_csv(groundtruth_path + '\\' + dir, sep = '[\t;]', engine = 'python')
             groundtruth_list.append(A)
         return groundtruth_list #renvoie une liste contenant les DataFrame 
     
