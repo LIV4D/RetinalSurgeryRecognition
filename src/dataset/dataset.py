@@ -139,5 +139,5 @@ class ImagesDataset(Dataset):
         else:
             Phase = 0
         
-        return(Phase)
+        return Phase
         

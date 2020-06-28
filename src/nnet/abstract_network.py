@@ -40,11 +40,12 @@ class AbstractNet(nn.Module):
         if '.' not in filename:
             filename += '.pth'
 
-        path = self.savepoint + '/'
+        path = self.savepoint + '\\'
+        #was '/'
 
         if use_datetime:
             today = str(datetime.datetime.now().date())
-            path = join(path, today + '/')
+            path = join(path, today + '\\')
         create_folder(path)
         path = join(path, filename)
 
