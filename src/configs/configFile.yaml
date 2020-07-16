@@ -1,17 +1,17 @@
 Manager:
-  experiment_name: PhaseRecognition
-  save_point: runs\
-  gpu: [0] #à modifier selon le nombre de GPU
+  experiment_name: Exp2
+  save_point: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\RetinalSurgeryRecognition\runs\PhaseRecognition\
+  gpu: cpu #à modifier selon le nombre de GPU
   seed: 1234
 
 Dataset:
   img_size: 512
-  batch_size: 1 #was 16
+  batch_size: 16 #was 2
   groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth'
-  img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Data\'
+  img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Training_Data\'
   load_recursirvely: True
   validation_ratio: 0.2  # From the training size
-  num_workers: 0  # Workers used for parallel data loading MODIFIED, WAS 16
+  num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
 
 
@@ -36,6 +36,7 @@ Testing:
   save_prediction: True
   eval_performance: True
   batch_size: 8
+  img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Testing_Data\'
 
 CNN:
   pretrained: True # Pretrained version
@@ -44,7 +45,7 @@ CNN:
   # it will override the reading of the a pretrained network (above option).
   # An empty string disables the option.
   # eg: trained_model_path: ../../runs/CityScape-Perspective/trained_model/
-  trained_model_path:
-  n_classes: 17
+  trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\RetinalSurgeryRecognition\runs\PhaseRecognition\Exp2\trained_model\trained_model_iter_10_loss_2.9062.pth
+  n_classes: 19 #à adapter
   continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
 
