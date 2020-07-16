@@ -13,7 +13,7 @@ class DatasetManager:
         self.batch_size = self.config['batch_size']
         self.img_size = self.config['img_size']
         self.groundtruth_path = self.config['groundtruth_path']
-        self.dataset_args = {'path_img': self.config['img_folder'], #bouclage sur les dossiers ???
+        self.dataset_args = {'path_img': self.config['img_folder'],
                              'shape': self.img_size,
                              'recursive': self.config['load_recursirvely']}
         self.groundtruth_list = self.get_ground_truth_list(self.groundtruth_path)
@@ -22,7 +22,7 @@ class DatasetManager:
         """
         The validation set will only be initialed if build_validation_set is called (for training, not testing)
         """
-        self.validation_dataset = self.build_validation_set #was None
+        self.validation_dataset = None #self.build_validation_set
         
 
     def build_validation_set(self):

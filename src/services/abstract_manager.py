@@ -17,11 +17,11 @@ class Manager:
         self.datasetManager = DatasetManager(self.config['Dataset'])
 
         self.multi_gpu = False  # Initialized in setup_gpu()
-        self.device = 'gpu'  # Initialized in setup_gpu()
+        self.device = 'cpu'  # Initialized in setup_gpu()
         self.set_seed() # Fix la seed, pour assurer la reproducibilité des expériences
         self.setup_gpus()
         self.exp_path = os.path.join(self.manager_config['save_point'], self.manager_config['experiment_name'])
-        self.tb_writer = SummaryWriter(os.path.join(self.exp_path, 'tensorboard\\')) # On utilise tensorBoard pour le suivi des expériences
+        self.tb_writer = SummaryWriter(os.path.join(self.exp_path, 'tensorboard')) # On utilise tensorBoard pour le suivi des expériences
         self.network.savepoint = os.path.join(self.exp_path, 'trained_model') # Point de sauvegarde du réseau
         self.softmax = torch.nn.Softmax(dim=1)
         if self.device != 'cpu':
@@ -40,7 +40,7 @@ class Manager:
 
     def setup_gpus(self):
         gpu = self.manager_config['gpu']
-        if gpu != 'none':
+        if gpu != 'cpu':
             if not isinstance(gpu, list):
                 gpu = self.manager_config['gpu'] = [gpu]
             self.multi_gpu = len(gpu) > 1

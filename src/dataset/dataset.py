@@ -27,7 +27,7 @@ class ImagesDataset(Dataset):
         super(ImagesDataset, self).__init__()
         if isinstance(shape, int):
             shape = (shape, shape)
-        self.path_img = path_img #adresse du DOSSIER d'images (à boucler ?)
+        self.path_img = path_img #adresse du DOSSIER d'images
         self.shape = shape
         self.da_core = None  # Data augmentation instance. Only initialized if required
         
