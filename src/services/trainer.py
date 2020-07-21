@@ -99,6 +99,7 @@ class Trainer(Manager):
             gts_cat = torch.cat((gts_cat,gts.cpu()),0)
             pred_cat = torch.cat((pred_cat,pred.cpu()),0)
             out_cat = torch.cat((out_cat,out.cpu()),0)
+            print('Validation image n° %i'%i)
             
             
         gts_cat = gts_cat.numpy()
