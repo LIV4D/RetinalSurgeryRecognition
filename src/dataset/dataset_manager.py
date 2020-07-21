@@ -65,6 +65,7 @@ class DatasetManager:
             
     def get_ground_truth_list(self,groundtruth_path): #donner l'adresse du fichier contenant .csv contenant les Frames,Steps
         dirList = os.listdir(groundtruth_path)
+        dirList.sort()
         groundtruth_list = []
         for dir in dirList:
             A = pd.read_csv(groundtruth_path + dir, sep = '[\t;]', engine = 'python')

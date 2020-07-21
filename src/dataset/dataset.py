@@ -36,7 +36,7 @@ class ImagesDataset(Dataset):
         self.img_filepath = []
 
         for file in os.listdir(self.path_img):
-            self.img_filepath.extend(glob.glob(self.path_img + file + '\\' + '*.jpg', recursive=recursive))
+            self.img_filepath.extend(glob.glob(self.path_img + file + '/' + '*.jpg', recursive=recursive))
 
         img_filenames = [path_leaf(path).split('.')[0] for path in self.img_filepath] #Liste de toutes les images ['frame0', 'frame1', ...]
 
@@ -79,7 +79,7 @@ class ImagesDataset(Dataset):
         img = cv2.resize(img, dsize=self.shape).astype(np.uint8)
         img = img.transpose((2, 0, 1)).astype(np.float32) / 255.
         img = self.normalize(img)
-
+        
         phase = self.read_phase(self.img_filepath[item])
         
         return torch.from_numpy(img), phase #retourne la phase en tant qu'entier
@@ -127,7 +127,7 @@ class ImagesDataset(Dataset):
         X = res[-2] - 1  #les indices de la list groundtruth démarrent à 0 et les fichiers dataX démarrent à 1
         Y = res[-1]
         groundtruth = self.groundtruth_list[X]
-        
+               
         B = (groundtruth.at[Y,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
          
         temp = re.findall(r'\d+', B) 
@@ -138,6 +138,7 @@ class ImagesDataset(Dataset):
             Phase = res[1]
         else:
             Phase = 0
+    
         
         return Phase
         

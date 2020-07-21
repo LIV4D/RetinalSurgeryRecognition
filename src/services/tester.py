@@ -16,7 +16,7 @@ class Tester(Manager):
         config['Dataset']['img_folder'] = config['Testing']['img_folder']
         super(Tester, self).__init__(config)
         self.config_testing = self.config['Testing']
-        self.results_path = os.path.join(self.exp_path, 'test'+custom_test_name+'\\')
+        self.results_path = os.path.join(self.exp_path, 'test' + custom_test_name + '/')
 #        self.prediction_path = os.path.join(self.results_path, 'predictions')
         create_folder(self.results_path)
 #        if self.config_testing['save_prediction']:

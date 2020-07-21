@@ -28,7 +28,7 @@ class Trainer(Manager):
         :param e: Current epoch
         :return:
         """
-#DEJA FAIT        #self.writer = SummaryWriter(os.path.join(self.exp_path, 'tensorboard\\'), filename_suffix = "Accuracy")
+
         dataloader = self.datasetManager.get_dataloader()
         length_dataloader = len(dataloader)
         print("Epoch %i"%e)
