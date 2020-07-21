@@ -3,6 +3,7 @@ import torch
 import pandas as pd
 import os
 from torch.utils.data import DataLoader
+from torch.utils.data import Subset
 
 from .dataset import ImagesDataset
 
@@ -53,8 +54,12 @@ class DatasetManager:
             return classes_weight
 
     def get_validation_dataloader(self):
+        L = len(self.validation_dataset)
+        subset_indices = np.random.randint(0,L,int(L/5))
+        #choisi aléatoirement L/5 images numérotées de 0 à L
+        subset = Subset(self.validation_dataset,subset_indices)
         if self.validation_dataset is not None:
-            return DataLoader(self.validation_dataset,
+            return DataLoader(subset,
                               batch_size=self.batch_size,
                               shuffle=True,
                               pin_memory=self.config['pin_memory'],
