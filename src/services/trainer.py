@@ -78,13 +78,14 @@ class Trainer(Manager):
         """    
         loss_out = []
         n_class = self.config['CNN']['n_classes']
+        B_size = self.config['Dataset']['batch_size']
         gts_cat = torch.LongTensor()
         pred_cat = torch.LongTensor()
         out_cat = torch.FloatTensor()
         Validation = self.datasetManager.get_validation_dataloader()
         length = len(Validation)
         for i, batch in enumerate(Validation):
-            print('Batch n°%i'%i)
+            print('Batch %i out of %i'%(i,length/B_size))
             index = current_index*length+i
             batch = self.to_device(batch)
             img = batch[0]
