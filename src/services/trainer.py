@@ -84,14 +84,19 @@ class Trainer(Manager):
         Validation = self.datasetManager.get_validation_dataloader()
         length = len(Validation)
         for i, batch in enumerate(Validation):
+            print('Validation image n° %i'%i)
             index = current_index*length+i
             batch = self.to_device(batch)
 #            print('%i'%i) pour le suivi
             img = batch[0]
             gts = batch[1]
+            print('Pré-network')
             out = self.network(img)
+            print('Post-network')
             out = self.softmax(out)
+            print('Pré-out')
             loss = self.loss(out,gts)
+            print('Post-out')
             pred = torch.argmax(out, 1, keepdim = True)
             pred = pred.view(-1)
             loss_out.append(loss.item())
@@ -99,7 +104,6 @@ class Trainer(Manager):
             gts_cat = torch.cat((gts_cat,gts.cpu()),0)
             pred_cat = torch.cat((pred_cat,pred.cpu()),0)
             out_cat = torch.cat((out_cat,out.cpu()),0)
-            print('Validation image n° %i'%i)
             
             
         gts_cat = gts_cat.numpy()
