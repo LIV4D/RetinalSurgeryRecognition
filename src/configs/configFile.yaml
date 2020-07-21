@@ -11,7 +11,7 @@ Dataset:
   img_folder: '/home/clement/CATARACTS/Training_Data/'
   load_recursirvely: True
   validation_ratio: 0.2  # From the training size
-  num_workers: 16  # Workers used for parallel data loading MODIFIED, WAS 8
+  num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
 
 
