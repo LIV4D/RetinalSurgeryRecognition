@@ -86,6 +86,7 @@ class Trainer(Manager):
         for i, batch in enumerate(Validation):
             print('Validation image n° %i'%i)
             index = current_index*length+i
+            print('To device')
             batch = self.to_device(batch)
 #            print('%i'%i) pour le suivi
             img = batch[0]
@@ -94,16 +95,18 @@ class Trainer(Manager):
             out = self.network(img)
             print('Post-network')
             out = self.softmax(out)
-            print('Pré-out')
+            print('Pré-loss')
             loss = self.loss(out,gts)
-            print('Post-out')
+            print('Post-loss')
             pred = torch.argmax(out, 1, keepdim = True)
+            print('Argmax')
             pred = pred.view(-1)
             loss_out.append(loss.item())
             
             gts_cat = torch.cat((gts_cat,gts.cpu()),0)
             pred_cat = torch.cat((pred_cat,pred.cpu()),0)
             out_cat = torch.cat((out_cat,out.cpu()),0)
+            print('END')
             
             
         gts_cat = gts_cat.numpy()
