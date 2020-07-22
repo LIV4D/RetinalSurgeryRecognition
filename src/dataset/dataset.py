@@ -108,7 +108,7 @@ class ImagesDataset(Dataset):
             classes_counts = np.zeros(128,
                                       dtype=int)  # Arbitrary number because the number of classes is unknown at this point
             for i in range(len(self.img_filepath)):
-                _ , phase = self.get_item(i)
+                _ , phase = self.__getitem__(i)
                 u, counts = np.unique(phase, return_counts=True)
                 classes_counts[u] += counts
             classes_counts = classes_counts[

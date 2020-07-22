@@ -6,7 +6,7 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 4 #was 2
+  batch_size: 4 #was 16
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   img_folder: '/home/clement/CATARACTS/Training_Data/'
   load_recursirvely: True
