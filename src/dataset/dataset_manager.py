@@ -35,7 +35,7 @@ class DatasetManager:
         valid_indices = indices[:valid_len]
         train_indices = indices[valid_len:]
         self.dataset.subset(train_indices)
-        self.validation_dataset = ImagesDataset(self.groundtruth_list, **self.dataset_args)
+        self.validation_dataset = ImagesDataset(self.groundtruth_list, self.config['path_weights'], **self.dataset_args)
         self.validation_dataset.subset(valid_indices)
 
 
