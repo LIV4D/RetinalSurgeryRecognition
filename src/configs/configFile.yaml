@@ -1,5 +1,5 @@
 Manager:
-  experiment_name: Exp1
+  experiment_name: Exp2
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   gpu: 0 #à modifier selon le nombre de GPU
   seed: 1234
@@ -13,6 +13,7 @@ Dataset:
   validation_ratio: 0.2  # From the training size
   num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
+  path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights
 
 
 

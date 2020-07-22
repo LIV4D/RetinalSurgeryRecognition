@@ -17,7 +17,7 @@ class ImagesDataset(Dataset):
     et la phase associée, mais cela prend de réfléchir à la gestion de la phase. Une facon de faire serait de stocker
     cette information dans un fichier qui puisse être lu par pandas. A chaque image
     """
-    def __init__(self, groundtruth_list, path_img, shape=(512, 512), recursive=True): #passer le tableau ou le chemin
+    def __init__(self, groundtruth_list, path_weights, path_img, shape=(512, 512), recursive=True): #passer le tableau ou le chemin
         """
         A compléter éventuellement pour prendre en entrée le chemin vers le fichier des phases (groundtruth)
         :param path_img:
@@ -29,6 +29,7 @@ class ImagesDataset(Dataset):
             shape = (shape, shape)
         self.path_img = path_img #adresse du DOSSIER d'images
         self.shape = shape
+        self.path_weights = path_weights
         self.da_core = None  # Data augmentation instance. Only initialized if required
         
         self.groundtruth_list = groundtruth_list
@@ -97,7 +98,7 @@ class ImagesDataset(Dataset):
         J'ai mis du pseudo-code à compléter selon le besoin, cela dépend de l'utilisation
         """
 
-        classes_weight_path = os.path.join(self.path_masks, 'classes_weight.npy') # chemin de sauvergarde des
+        classes_weight_path = os.path.join(self.path_weights, 'classes_weight.npy') # chemin de sauvergarde des weights
 
         if os.path.exists(classes_weight_path):
             print("Loading existing weights for class balance from", classes_weight_path)
@@ -107,8 +108,8 @@ class ImagesDataset(Dataset):
             classes_counts = np.zeros(128,
                                       dtype=int)  # Arbitrary number because the number of classes is unknown at this point
             for i in range(len(self.img_filepath)):
-                mask = self.get_mask(i)
-                u, counts = np.unique(mask, return_counts=True)
+                _ , phase = self.get_item(i)
+                u, counts = np.unique(phase, return_counts=True)
                 classes_counts[u] += counts
             classes_counts = classes_counts[
                              :np.max(np.nonzero(classes_counts)) + 1]  # Keep only the classes that have a count

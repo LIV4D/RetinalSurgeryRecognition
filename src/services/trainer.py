@@ -151,7 +151,7 @@ class Trainer(Manager):
         tribution of the classes on the training set.
         :return:
         """
-        self.loss = nn.CrossEntropyLoss()
+        self.loss = nn.CrossEntropyLoss(weight = self.class_weights)
 
     def backward_and_step(self, loss):
         """
