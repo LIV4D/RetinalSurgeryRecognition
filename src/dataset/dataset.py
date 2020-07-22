@@ -108,7 +108,7 @@ class ImagesDataset(Dataset):
             classes_counts = np.zeros(128,
                                       dtype=int)  # Arbitrary number because the number of classes is unknown at this point
             for i in range(len(self.img_filepath)):
-                _ , phase = self.__getitem__(i)
+                phase = self.read_phase(self.img_filepath[i])
                 u, counts = np.unique(phase, return_counts=True)
                 classes_counts[u] += counts
             classes_counts = classes_counts[
@@ -120,6 +120,7 @@ class ImagesDataset(Dataset):
             print('Weights stored in ', classes_weight_path)
         return class_weights
     
+                        
     def read_phase(self, filepath):
         
         #find the number X of the video and the number Y of the image, saved in a file dataX with the name frameY
