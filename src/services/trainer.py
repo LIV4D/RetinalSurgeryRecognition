@@ -123,7 +123,7 @@ class Trainer(Manager):
             
         Accuracy = sklearn.metrics.accuracy_score(gts_cat,pred_cat)  
         
-        self.tb_writer.add_scalar('Mean AUC_roc', np.mean(Mean_roc), current_index)
+        self.tb_writer.add_scalar('Mean AUC_roc', np.nanmean(Mean_roc), current_index)
         self.tb_writer.add_scalar('Accuracy', Accuracy, current_index)
         self.tb_writer.add_scalar('Loss', np.mean(loss_out), current_index)
         
