@@ -1,5 +1,5 @@
 Manager:
-  experiment_name: Exp2
+  experiment_name: Exp3
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   #save_point: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
   gpu: 0 #à modifier selon le nombre de GPU
@@ -45,7 +45,7 @@ Testing:
 
 CNN:
   pretrained: True # Pretrained version
-  model: inception
+  model: resnet
   # The following variable is path to an already trained model set of weights. If set,
   # it will override the reading of the a pretrained network (above option).
   # An empty string disables the option.
@@ -53,7 +53,9 @@ CNN:
   #Unweighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp1/trained_model/trained_model_iter_42500_loss_2.2453.pth
   #weighted
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp2/trained_model/trained_model_iter_48500_loss_2.5815.pth
+  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp2/trained_model/trained_model_iter_48500_loss_2.5815.pth
+  #resnet
+  trained_model_path:
   n_classes: 19
   continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
 
