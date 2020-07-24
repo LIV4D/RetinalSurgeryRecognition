@@ -41,5 +41,5 @@ class MyNetwork(AbstractNet):
         self.network.fc = fcn
 
     def forward(self, input_tensors):
-        return self.network(input_tensors)[0] #was ['aux'] c'est un tuple alors que ça ne devrait pas ???
+        return self.network(input_tensors) #was [0]
     
