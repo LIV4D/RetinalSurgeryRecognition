@@ -151,8 +151,8 @@ class Trainer(Manager):
         tribution of the classes on the training set.
         :return:
         """
-        #self.loss = nn.CrossEntropyLoss(weight = self.to_device(self.datasetManager.class_weights))
-        self.loss = nn.CrossEntropyLoss()
+        self.loss = nn.CrossEntropyLoss(weight = self.to_device(self.datasetManager.class_weights))
+        #self.loss = nn.CrossEntropyLoss()
 
     def backward_and_step(self, loss):
         """
