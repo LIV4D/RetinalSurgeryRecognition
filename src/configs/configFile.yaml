@@ -55,7 +55,7 @@ CNN:
   #weighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp2/trained_model/trained_model_iter_48500_loss_2.5815.pth
   #resnet
-  trained_model_path:
+  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp3/trained_model/trained_model_iter_51500_loss_2.1597.pth
   n_classes: 19
   continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
 
