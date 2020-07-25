@@ -50,12 +50,14 @@ CNN:
   # it will override the reading of the a pretrained network (above option).
   # An empty string disables the option.
   # eg: trained_model_path: ../../runs/CityScape-Perspective/trained_model/
-  #Unweighted
+  #Inception Unweighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp1/trained_model/trained_model_iter_42500_loss_2.2453.pth
-  #weighted
+  #Inception weighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp2/trained_model/trained_model_iter_48500_loss_2.5815.pth
   #resnet
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp3/trained_model/trained_model_iter_51500_loss_2.1597.pth
+  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp3/trained_model/trained_model_iter_51500_loss_2.1597.pth
+  #resnet weighted
+  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp4/trained_model/trained_model_iter_45000_loss_2.2325.pth
   n_classes: 19
   continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
 
