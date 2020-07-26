@@ -47,6 +47,7 @@ class Tester(Manager):
                 self.eval_batch(pred.cpu(), probs, gts.cpu(), batch_number)
                 
         np.save(os.path.join(self.results_path, 'confusion_matrix.npy'), self.confusion_matrix) #self.metrics.confusion_matrix
+        self.results_metrics(os.path.join(self.results_path, 'confusion_matrix.npy'))
 
     def eval_batch(self, preds, probs, gts, batch_number):  
         if self.config_testing['eval_performance']:    
@@ -55,13 +56,38 @@ class Tester(Manager):
 
     def load_best_model(self):
         self.network.load(path=self.network.savepoint, load_most_recent=True)
-
-    def save_pred(self, pred, img_name):
-        img = self.semantic_cmap(pred)[:, :, :3].astype(np.float32)
-        img *= 255
-        cv2.imwrite(os.path.join(self.prediction_path, img_name + '.png'), img.astype(np.uint8))     
-        
+    
+    
     def report_batch_into_confusion_matrix(self,gts,pred):
         n_class = self.config['CNN']['n_classes']
         self.confusion_matrix = self.confusion_matrix + skm.multilabel_confusion_matrix(gts, pred, labels = [i for i in range(0,n_class)])
  
+    
+    def results_metrics(self, matrix_path):
+
+        matrix = np.load(matrix_path)
+        print(matrix)
+        
+        L = len(matrix)
+        sensitivity = {}
+        specificity = {}
+        accuracy = {}
+        
+        for i in range(L):
+            if matrix[i][1][1]+matrix[i][1][0] == 0:
+                sensitivity.update({'Classe %i'%i : 0})
+            else:
+                sensitivity.update({'Classe %i'%i : matrix[i][1][1]/(matrix[i][1][1]+matrix[i][1][0])})
+            
+            if matrix[i][0][1]+matrix[i][0][0] == 0:
+                specificity.update({'Classe %i'%i : 0})
+            else:
+                specificity.update({'Classe %i'%i : 1 - matrix[i][0][1]/(matrix[i][0][1]+matrix[i][0][0])})
+            
+            accuracy.update({'Classe %i'%i : (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1])})
+            
+        Metrics_writer = SummaryWriter(os.join(self.result_path, 'Metrics'))
+
+        Metrics_writer.add_scalars('Sensitivity', sensitivity)
+        Metrics_writer.add_scalars('Specificity', specificity)
+        Metrics_writer.add_scalars('Accuracy', accuracy)
