@@ -17,14 +17,14 @@ for i in range(L):
     if matrix[i][1][1]+matrix[i][1][0] == 0:
         Metrics_writer.add_scalar('Sensitivity', 0, i)
     else:
-        Metrics_writer.add_scalars('Sensitivity', matrix[i][1][1]/(matrix[i][1][1]+matrix[i][1][0]), i)
+        Metrics_writer.add_scalar('Sensitivity', matrix[i][1][1]/(matrix[i][1][1]+matrix[i][1][0]), i)
         
     if matrix[i][0][1]+matrix[i][0][0] == 0:
-        Metrics_writer.add_scalars('Specificity', 0, i)
+        Metrics_writer.add_scalar('Specificity', 0, i)
     else:
-        Metrics_writer.add_scalars('Specificity', 1 - matrix[i][0][1]/(matrix[i][0][1]+matrix[i][0][0]), i)
+        Metrics_writer.add_scalar('Specificity', 1 - matrix[i][0][1]/(matrix[i][0][1]+matrix[i][0][0]), i)
         
-    Metrics_writer.add_scalars('Accuracy', (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1]), i)
+    Metrics_writer.add_scalar('Accuracy', (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1]), i)
         
 
 
