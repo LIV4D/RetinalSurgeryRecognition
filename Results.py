@@ -8,9 +8,6 @@ matrix = np.load(matrix_path)
 print(matrix)
         
 L = len(matrix)
-sensitivity = {}
-specificity = {}
-accuracy = {}
 Metrics_writer = SummaryWriter(folder_path)
 
 for i in range(L):

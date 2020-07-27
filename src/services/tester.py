@@ -47,7 +47,7 @@ class Tester(Manager):
                 self.eval_batch(pred.cpu(), probs, gts.cpu(), batch_number)
                 
         np.save(os.path.join(self.results_path, 'confusion_matrix.npy'), self.confusion_matrix) #self.metrics.confusion_matrix
-        self.results_metrics(os.path.join(self.results_path, 'confusion_matrix.npy'), self.result_path)
+        self.results_metrics(self.result_path)
 
     def eval_batch(self, preds, probs, gts, batch_number):  
         if self.config_testing['eval_performance']:    
@@ -63,31 +63,25 @@ class Tester(Manager):
         self.confusion_matrix = self.confusion_matrix + skm.multilabel_confusion_matrix(gts, pred, labels = [i for i in range(0,n_class)])
  
     
-    def results_metrics(self, matrix_path, save_path):
-
+    def results_metrics(self, save_path):
+       
+        matrix_path = os.path.join(save_path, 'confusion_matrix.npy')
         matrix = np.load(matrix_path)
         print(matrix)
-        
+                
         L = len(matrix)
-        sensitivity = {}
-        specificity = {}
-        accuracy = {}
+        Metrics_writer = SummaryWriter(save_path)
         
         for i in range(L):
             if matrix[i][1][1]+matrix[i][1][0] == 0:
-                sensitivity.update({'Classe %i'%i : 0})
+                Metrics_writer.add_scalar('Sensitivity', 0, i)
             else:
-                sensitivity.update({'Classe %i'%i : matrix[i][1][1]/(matrix[i][1][1]+matrix[i][1][0])})
-            
+                Metrics_writer.add_scalar('Sensitivity', matrix[i][1][1]/(matrix[i][1][1]+matrix[i][1][0]), i)
+                
             if matrix[i][0][1]+matrix[i][0][0] == 0:
-                specificity.update({'Classe %i'%i : 0})
+                Metrics_writer.add_scalar('Specificity', 0, i)
             else:
-                specificity.update({'Classe %i'%i : 1 - matrix[i][0][1]/(matrix[i][0][1]+matrix[i][0][0])})
-            
-            accuracy.update({'Classe %i'%i : (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1])})
-            
-        Metrics_writer = SummaryWriter(save_path)
-
-        Metrics_writer.add_scalars('Sensitivity', sensitivity)
-        Metrics_writer.add_scalars('Specificity', specificity)
-        Metrics_writer.add_scalars('Accuracy', accuracy)
+                Metrics_writer.add_scalar('Specificity', 1 - matrix[i][0][1]/(matrix[i][0][1]+matrix[i][0][0]), i)
+                
+            Metrics_writer.add_scalar('Accuracy', (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1]), i)
+       
