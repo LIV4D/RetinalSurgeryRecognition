@@ -11,23 +11,20 @@ L = len(matrix)
 sensitivity = {}
 specificity = {}
 accuracy = {}
+Metrics_writer = SummaryWriter(folder_path)
 
 for i in range(L):
     if matrix[i][1][1]+matrix[i][1][0] == 0:
-        sensitivity.update({'Classe %i'%i : 0})
+        Metrics_writer.add_scalar('Sensitivity', 0, i)
     else:
-        sensitivity.update({'Classe %i'%i : matrix[i][1][1]/(matrix[i][1][1]+matrix[i][1][0])})
+        Metrics_writer.add_scalars('Sensitivity', matrix[i][1][1]/(matrix[i][1][1]+matrix[i][1][0]), i)
         
     if matrix[i][0][1]+matrix[i][0][0] == 0:
-        specificity.update({'Classe %i'%i : 0})
+        Metrics_writer.add_scalars('Specificity', 0, i)
     else:
-        specificity.update({'Classe %i'%i : 1 - matrix[i][0][1]/(matrix[i][0][1]+matrix[i][0][0])})
+        Metrics_writer.add_scalars('Specificity', 1 - matrix[i][0][1]/(matrix[i][0][1]+matrix[i][0][0]), i)
         
-    accuracy.update({'Classe %i'%i : (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1])})
+    Metrics_writer.add_scalars('Accuracy', (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1]), i)
         
-Metrics_writer = SummaryWriter(folder_path)
-Metrics_writer.add_scalars('Sensitivity', sensitivity)
-Metrics_writer.add_scalars('Specificity', specificity)
-Metrics_writer.add_scalars('Accuracy', accuracy)
 
 
