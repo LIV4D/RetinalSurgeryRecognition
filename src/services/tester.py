@@ -47,7 +47,7 @@ class Tester(Manager):
                 self.eval_batch(pred.cpu(), probs, gts.cpu(), batch_number)
                 
         np.save(os.path.join(self.results_path, 'confusion_matrix.npy'), self.confusion_matrix) #self.metrics.confusion_matrix
-        self.results_metrics(os.path.join(self.results_path, 'confusion_matrix.npy'))
+        self.results_metrics(os.path.join(self.results_path, 'confusion_matrix.npy'), os.path.join(self.result_path, 'metrics'))
 
     def eval_batch(self, preds, probs, gts, batch_number):  
         if self.config_testing['eval_performance']:    
@@ -63,7 +63,7 @@ class Tester(Manager):
         self.confusion_matrix = self.confusion_matrix + skm.multilabel_confusion_matrix(gts, pred, labels = [i for i in range(0,n_class)])
  
     
-    def results_metrics(self, matrix_path):
+    def results_metrics(self, matrix_path, save_path):
 
         matrix = np.load(matrix_path)
         print(matrix)
@@ -86,7 +86,7 @@ class Tester(Manager):
             
             accuracy.update({'Classe %i'%i : (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1])})
             
-        Metrics_writer = SummaryWriter(os.path.join(self.result_path, 'Metrics'))
+        Metrics_writer = SummaryWriter(save_path)
 
         Metrics_writer.add_scalars('Sensitivity', sensitivity)
         Metrics_writer.add_scalars('Specificity', specificity)
