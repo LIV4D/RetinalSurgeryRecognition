@@ -86,7 +86,7 @@ class Tester(Manager):
             
             accuracy.update({'Classe %i'%i : (matrix[i][1][1]+matrix[i][0][0])/(matrix[i][1][1]+matrix[i][0][0]+matrix[i][1][0]+matrix[i][0][1])})
             
-        Metrics_writer = SummaryWriter(os.join(self.result_path, 'Metrics'))
+        Metrics_writer = SummaryWriter(os.path.join(self.result_path, 'Metrics'))
 
         Metrics_writer.add_scalars('Sensitivity', sensitivity)
         Metrics_writer.add_scalars('Specificity', specificity)
