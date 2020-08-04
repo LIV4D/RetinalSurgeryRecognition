@@ -11,6 +11,7 @@ L = len(matrix)
 Metrics_writer = SummaryWriter(folder_path)
 
 for i in range(L):
+    print(i)
     if matrix[i][1][1]+matrix[i][1][0] == 0:
         Metrics_writer.add_scalar('Sensitivity', 0, i)
     else:
