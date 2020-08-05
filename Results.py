@@ -2,7 +2,7 @@ import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 
 folder_path = input('Folder path :\n')
-matrix_path = folder_path + 'confusion_matrix.npy'
+matrix_path = folder_path + '/confusion_matrix.npy'
 
 matrix = np.load(matrix_path)
 print(matrix)
