@@ -11,7 +11,6 @@ class Builder:
         self.output_dir = output_dir
         self.datasetManager = DatasetManager(self.config['Dataset'])
         self.network = MyNetwork(self.config['CNN'])
-        self.device = 'cpu'
 
     def features_from_CNN(self):
         """
@@ -26,7 +25,7 @@ class Builder:
         gts_cat = torch.LongTensor()
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
             print("%i out of %i"%(i,length_dataloader))
-            batch = self.to_device(batch)
+            #batch = self.to_device(batch)
             img = batch[0]
             gts = batch[1]
             
@@ -38,16 +37,6 @@ class Builder:
         torch.save(out_cat, os.path.join(self.output_dir,'features_tensor.pt'))
         torch.save(gts_cat, os.path.join(self.output_dir,'groundtruth_tensor.pt'))
         
-        
-    def to_device(self, tensors):
-        if not isinstance(tensors, list):
-            tensors = [tensors]
-        d_tensor = []
-        for t in tensors:
-            d_tensor.append(t.to(self.device))
-        if len(d_tensor) > 1:
-            return d_tensor
-        else:
-            return d_tensor[0]
+    
     
 
