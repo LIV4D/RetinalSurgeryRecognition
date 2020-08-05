@@ -31,8 +31,8 @@ class Builder:
             
             out_CNN = self.network(img)  
             
-            out_cat = torch.cat((out_cat,out_CNN),0)
-            gts_cat = torch.cat((gts_cat,gts),0)
+            out_cat = torch.cat((out_cat,out_CNN.cpu()),0)
+            gts_cat = torch.cat((gts_cat,gts.cpu()),0)
         
         torch.save(out_cat, os.path.join(self.output_dir,'features_tensor.pt'))
         torch.save(gts_cat, os.path.join(self.output_dir,'groundtruth_tensor.pt'))

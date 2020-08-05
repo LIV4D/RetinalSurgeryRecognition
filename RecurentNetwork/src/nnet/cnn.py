@@ -37,7 +37,7 @@ class MyNetwork(AbstractNet):
         """fcn = nn.Sequential(ConvLayer(1024, 256, kernel_size=(3, 3), dropout=0.1, activation='relu', norm='batch'),
                             nn.Conv2d(256, self.config['n_classes'], kernel_size=(1, 1), stride=(1, 1)))"""     
         
-        fcn = nn.Sequential(nn.Linear(2048, 1024, bias = True),nn.Linear(1000, self.config['n_classes'], bias = True))
+        fcn = nn.Sequential(nn.Linear(2048, 1024, bias = True))
         self.network.fc = fcn
 
     def forward(self, input_tensors):
