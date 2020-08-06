@@ -39,8 +39,7 @@ class MyNetwork(AbstractNet):
         
         fcn = nn.Sequential(nn.Linear(2048, 1024, bias = True))
         self.network.fc = fcn
-        
-        self.network.cuda()
+
 
     def forward(self, input_tensors):
         return self.network(input_tensors)[0]

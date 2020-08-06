@@ -31,8 +31,8 @@ class Builder:
         out_cat = torch.FloatTensor()
         gts_cat = torch.LongTensor()
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
-            print("%i out of %i"%(i,length_dataloader))
-            batch = self.to_device(batch)
+            print("\n%i out of %i"%(i,length_dataloader))
+            #batch = self.to_device(batch)
             img = batch[0]
             gts = batch[1]
             
