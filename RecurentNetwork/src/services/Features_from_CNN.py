@@ -18,6 +18,11 @@ class Builder:
         self.device = 'cpu'  # Initialized in setup_gpu()
         self.setup_gpus()
         self.set_seed()
+        
+        if self.device != 'cpu':
+            self.network = self.network.cuda(self.device)
+        if self.multi_gpu:
+            self.network = DataParallel(self.network, device_ids=self.manager_config['gpu'])
 
     def features_from_CNN(self):
         """
@@ -32,7 +37,7 @@ class Builder:
         gts_cat = torch.LongTensor()
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
             print("\n%i out of %i"%(i,length_dataloader))
-            #batch = self.to_device(batch)
+            batch = self.to_device(batch)
             img = batch[0]
             gts = batch[1]
             
