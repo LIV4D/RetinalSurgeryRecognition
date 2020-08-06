@@ -15,6 +15,7 @@ class Builder:
         self.multi_gpu = False  # Initialized in setup_gpu()
         self.device = 'cpu'  # Initialized in setup_gpu()
         self.setup_gpus()
+        self.set_seed()
 
     def features_from_CNN(self):
         """
@@ -62,6 +63,15 @@ class Builder:
             return d_tensor
         else:
             return d_tensor[0]
+        
+    def set_seed(self):
+        seed = self.config['Manager']['seed']
+        np.random.seed(seed)
+        random.seed(seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+        torch.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
         
     
     
