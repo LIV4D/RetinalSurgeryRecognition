@@ -2,6 +2,7 @@ import tqdm
 import torch
 import os
 import numpy as np
+import random
 
 from src.dataset.dataset_manager import DatasetManager
 from src.nnet.cnn import MyNetwork
