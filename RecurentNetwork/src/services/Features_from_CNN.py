@@ -4,6 +4,7 @@ import os
 import numpy as np
 import random
 
+from src.utils.torch_utils import DataParallel
 from src.dataset.dataset_manager import DatasetManager
 from src.nnet.cnn import MyNetwork
 
@@ -18,6 +19,7 @@ class Builder:
         self.device = 'cpu'  # Initialized in setup_gpu()
         self.setup_gpus()
         self.set_seed()
+        self.setup_optims()
         
         if self.device != 'cpu':
             self.network = self.network.cuda(self.device)
@@ -79,6 +81,18 @@ class Builder:
         torch.backends.cudnn.benchmark = False
         torch.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
+        
+    def setup_optims(self):
+        """
+        Configure the training solver according to the config file. Use adam solver.
+        :return:
+        """
+        lr = self.config['Training']['lr']
+        b1 = self.config['Training']['b1']
+        b2 = self.config['Training']['b2']
+        weight_decay = self.config['Training']['weight_decay']
+        self.opt = torch.optim.Adam(self.network.parameters(), lr=lr, betas=(b1, b2),
+                                    weight_decay=weight_decay)
         
     
     

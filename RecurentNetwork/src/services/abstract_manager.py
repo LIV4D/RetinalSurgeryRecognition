@@ -13,7 +13,7 @@ class Manager:
     def __init__(self, config):
         self.config = config
         self.manager_config = self.config['Manager']
-        #self.network = MyNetwork(self.config['CNN']) #CNN ou RNN
+        self.network = MyNetwork(self.config['CNN']) #CNN ou RNN
         #self.RNN = MyNetwork_RNN(self.config)
         
 
@@ -25,12 +25,12 @@ class Manager:
         self.setup_gpus()
         self.exp_path = os.path.join(self.manager_config['save_point'], self.manager_config['experiment_name'])
         self.tb_writer = SummaryWriter(os.path.join(self.exp_path, 'tensorboard')) # On utilise tensorBoard pour le suivi des expériences
-        #self.network.savepoint = os.path.join(self.exp_path, 'trained_model') # Point de sauvegarde du réseau
+        self.network.savepoint = os.path.join(self.exp_path, 'trained_model') # Point de sauvegarde du réseau
         self.softmax = torch.nn.Softmax(dim=1)
-        #if self.device != 'cpu':
-        #    self.network = self.network.cuda(self.device)
-        #if self.multi_gpu:
-        #    self.network = DataParallel(self.network, device_ids=self.manager_config['gpu'])
+        if self.device != 'cpu':
+            self.network = self.network.cuda(self.device)
+        if self.multi_gpu:
+            self.network = DataParallel(self.network, device_ids=self.manager_config['gpu'])
 
     def set_seed(self):
         seed = self.manager_config['seed']
