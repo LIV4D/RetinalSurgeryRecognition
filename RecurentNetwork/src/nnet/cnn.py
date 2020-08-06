@@ -41,5 +41,5 @@ class MyNetwork(AbstractNet):
         self.network.fc = fcn
 
     def forward(self, input_tensors):
-        return self.network(input_tensors)[0]
+        return self.network(input_tensors)
     
