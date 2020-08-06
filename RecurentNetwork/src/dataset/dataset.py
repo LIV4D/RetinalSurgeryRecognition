@@ -83,7 +83,7 @@ class ImagesDataset(Dataset):
         
         phase = self.read_phase(self.img_filepath[item])
         
-        return torch.from_numpy(img), phase #retourne la phase en tant qu'entier
+        return torch.from_numpy(img), phase, self.img_filepath[item] #retourne la phase en tant qu'entier
 
 
 

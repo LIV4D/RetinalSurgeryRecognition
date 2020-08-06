@@ -3,10 +3,12 @@ import torch
 import os
 import numpy as np
 import random
+import re
 
 from src.utils.torch_utils import DataParallel
 from src.dataset.dataset_manager import DatasetManager
 from src.nnet.cnn import MyNetwork
+from src.utils.io import create_folder
 
 class Builder:
     def __init__(self, config_file, output_dir):
@@ -31,23 +33,25 @@ class Builder:
         """
 
         dataloader = self.datasetManager.get_dataloader()
-        length_dataloader = len(dataloader)
         print("\nFeatures obtention with CNN")
         print("-"*15)
-        out_cat = torch.FloatTensor()
-        gts_cat = torch.LongTensor()
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
-            batch = self.to_device(batch)
-            img = batch[0]
-            gts = batch[1]
+            img = self.to_device(batch[0])
+            gts = self.to_device(batch[1])
+            img_name = batch[2][0]
+            
+            temp = re.findall(r'\d+', img_name)
+            res = list(map(int, temp))
+            X = res[-2]
+            Y = res[-1]
+            
+            savepath = os.path.join(self.output_dir, 'data%i'%X)
+            create_folder(savepath)
             
             out_CNN = self.network(img)  
-            
-  #          out_cat = torch.cat((out_cat,out_CNN.cpu()),0)
-  #          gts_cat = torch.cat((gts_cat,gts.cpu()),0)
         
-        torch.save(out_cat, os.path.join(self.output_dir,'features_tensor.pt'))
-        torch.save(gts_cat, os.path.join(self.output_dir,'groundtruth_tensor.pt'))
+            torch.save(out_CNN, os.path.join(savepath,'features_tensor%i.pt'%Y))
+            torch.save(gts, os.path.join(savepath,'gts_tensor%i.pt'%Y))
         
         
     def setup_gpus(self):
