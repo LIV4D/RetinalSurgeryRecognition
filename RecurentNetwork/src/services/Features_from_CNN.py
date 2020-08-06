@@ -43,10 +43,10 @@ class Builder:
         
         
     def setup_gpus(self):
-        gpu = self.manager_config['gpu']
+        gpu = self.config['Manager']['gpu']
         if gpu != 'cpu':
             if not isinstance(gpu, list):
-                gpu = self.manager_config['gpu'] = [gpu]
+                gpu = self.config['Manager']['gpu'] = [gpu]
             self.multi_gpu = len(gpu) > 1
             device_ids = ','.join([str(_) for _ in gpu])
             self.device = 'cuda:' + device_ids
