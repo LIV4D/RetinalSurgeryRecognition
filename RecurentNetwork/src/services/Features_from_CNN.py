@@ -11,6 +11,10 @@ class Builder:
         self.output_dir = output_dir
         self.datasetManager = DatasetManager(self.config['Dataset'])
         self.network = MyNetwork(self.config['CNN'])
+        
+        self.multi_gpu = False  # Initialized in setup_gpu()
+        self.device = 'cpu'  # Initialized in setup_gpu()
+        self.setup_gpus()
 
     def features_from_CNN(self):
         """
@@ -25,7 +29,7 @@ class Builder:
         gts_cat = torch.LongTensor()
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
             print("%i out of %i"%(i,length_dataloader))
-            #batch = self.to_device(batch)
+            batch = self.to_device(batch)
             img = batch[0]
             gts = batch[1]
             
@@ -36,6 +40,28 @@ class Builder:
         
         torch.save(out_cat, os.path.join(self.output_dir,'features_tensor.pt'))
         torch.save(gts_cat, os.path.join(self.output_dir,'groundtruth_tensor.pt'))
+        
+        
+    def setup_gpus(self):
+        gpu = self.manager_config['gpu']
+        if gpu != 'cpu':
+            if not isinstance(gpu, list):
+                gpu = self.manager_config['gpu'] = [gpu]
+            self.multi_gpu = len(gpu) > 1
+            device_ids = ','.join([str(_) for _ in gpu])
+            self.device = 'cuda:' + device_ids
+        print('Using devices:', self.device)
+
+    def to_device(self, tensors):
+        if not isinstance(tensors, list):
+            tensors = [tensors]
+        d_tensor = []
+        for t in tensors:
+            d_tensor.append(t.to(self.device))
+        if len(d_tensor) > 1:
+            return d_tensor
+        else:
+            return d_tensor[0]
         
     
     
