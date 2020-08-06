@@ -1,6 +1,7 @@
 import tqdm
 import torch
 import os
+import numpy as np
 
 from src.dataset.dataset_manager import DatasetManager
 from src.nnet.cnn import MyNetwork
