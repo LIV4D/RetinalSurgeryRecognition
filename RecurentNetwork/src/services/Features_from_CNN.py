@@ -44,8 +44,8 @@ class Builder:
             
             out_CNN = self.network(img)  
             
-            out_cat = torch.cat((out_cat,out_CNN.cpu()),0)
-            gts_cat = torch.cat((gts_cat,gts.cpu()),0)
+  #          out_cat = torch.cat((out_cat,out_CNN.cpu()),0)
+  #          gts_cat = torch.cat((gts_cat,gts.cpu()),0)
         
         torch.save(out_cat, os.path.join(self.output_dir,'features_tensor.pt'))
         torch.save(gts_cat, os.path.join(self.output_dir,'groundtruth_tensor.pt'))
@@ -80,18 +80,7 @@ class Builder:
         torch.backends.cudnn.benchmark = False
         torch.manual_seed(seed)
         torch.cuda.manual_seed_all(seed)
-        
-    def setup_optims(self):
-        """
-        Configure the training solver according to the config file. Use adam solver.
-        :return:
-        """
-        lr = self.config['Training']['lr']
-        b1 = self.config['Training']['b1']
-        b2 = self.config['Training']['b2']
-        weight_decay = self.config['Training']['weight_decay']
-        self.opt = torch.optim.Adam(self.network.parameters(), lr=lr, betas=(b1, b2),
-                                    weight_decay=weight_decay)
+    
         
     
     
