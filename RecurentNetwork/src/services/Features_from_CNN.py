@@ -19,7 +19,6 @@ class Builder:
         self.device = 'cpu'  # Initialized in setup_gpu()
         self.setup_gpus()
         self.set_seed()
-        self.setup_optims()
         
         if self.device != 'cpu':
             self.network = self.network.cuda(self.device)
