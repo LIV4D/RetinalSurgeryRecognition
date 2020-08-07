@@ -1,6 +1,7 @@
 import glob
 import os
 from torch.utils.data import Dataset, DataLoader
+from natsort import natsorted
 import numpy as np
 import cv2
 import torch
@@ -37,13 +38,14 @@ class ImagesDataset(Dataset):
         self.img_filepath = []
 
         for file in os.listdir(self.path_img):
-            self.img_filepath.extend(glob.glob(self.path_img + file + '/' + '*.jpg', recursive=recursive))
+            self.img_filepath.extend(glob.glob(self.path_img + file + '/' + '*.pt', recursive=recursive))
 
         img_filenames = [path_leaf(path).split('.')[0] for path in self.img_filepath] #Liste de toutes les images ['frame0', 'frame1', ...]
 
         self.img_filepath = np.asarray(self.img_filepath)
         img_argsort = np.argsort(img_filenames)
         self.img_filepath = self.img_filepath[img_argsort] #array de tous les paths (\data01\frameX.jpg), pas dans l'ordre
+        self.img_filepath = natsorted(self.img_filepath)
         
         """
         Valeurs de normalisation à adopter si tu utilises un modèle de torchvision

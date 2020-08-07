@@ -37,9 +37,8 @@ class Trainer(Manager):
         gts_cat = torch.LongTensor()
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
             index = e*length_dataloader+i
-            batch = self.to_device(batch)
-            img = batch[0]
-            gts = batch[1]
+            img = self.to_device(batch[0])
+            gts = self.to_device(batch[1])
             
             out_CNN = self.network(img)  
             
