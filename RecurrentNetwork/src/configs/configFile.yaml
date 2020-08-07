@@ -7,7 +7,7 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 4 #was 4
+  batch_size: 1 #was 4
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   img_folder: '/home/clement/CATARACTS/Testing_Data/'
   #img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/'
