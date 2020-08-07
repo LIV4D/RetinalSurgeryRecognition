@@ -37,7 +37,6 @@ class Builder:
         print("-"*15)
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
             img = self.to_device(batch[0])
-            gts = self.to_device(batch[1])
             img_name = batch[2][0]
             
             temp = re.findall(r'\d+', img_name)
@@ -51,7 +50,6 @@ class Builder:
             out_CNN = self.network(img)  
         
             torch.save(out_CNN, os.path.join(savepath,'features_tensor%i.pt'%Y))
-            torch.save(gts, os.path.join(savepath,'gts_tensor%i.pt'%Y))
         
         
     def setup_gpus(self):

@@ -12,7 +12,7 @@ config_path = 'src/configs/configFile.yaml'
 with open(config_path) as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
     
-output_dir = '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurentNetwork/CNN_features'
+output_dir = '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/Testing_Data'
 
 
 if os.path.exists(output_dir):
