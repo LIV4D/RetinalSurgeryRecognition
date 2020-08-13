@@ -29,7 +29,7 @@ class MyNetwork_RNN(AbstractNet):
         h0_RNN = self.h0_RNN.repeat(1, b, 1)
         
         input_tensors = pack_padded_sequence(input_tensors, seq_size, batch_first = self.batch_first, enforce_sorted = False)
-        intermed = self.LSTM(input_tensors, h0, c0)
+        intermed = self.LSTM(input_tensors,(h0, c0))
         output = self.RNN(intermed, h0_RNN)
         OUT = self.unpad(output)
         return OUT #was [0]
