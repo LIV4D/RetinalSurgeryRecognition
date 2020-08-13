@@ -39,7 +39,7 @@ class ImagesDataset(Dataset):
         self.img_filepath = []
 
         for file in os.listdir(self.path_img):
-            self.img_filepath.extend(glob.glob(self.path_img + file + '/' + '*.jpg', recursive=recursive)) #was .pt
+            self.img_filepath.extend(glob.glob(self.path_img + file + '/' + '*.pt', recursive=recursive)) #was .pt
 
         img_filenames = [path_leaf(path).split('.')[0] for path in self.img_filepath] #Liste de toutes les images ['frame0', 'frame1', ...]
 
