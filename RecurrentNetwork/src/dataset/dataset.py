@@ -71,8 +71,8 @@ class ImagesDataset(Dataset):
         :return:
         """
         if len(self.img_filepath[item:]) > self.RNN_len:
-            sequence_img = torch.load(self.img_filepath[item : item+self.RNN_len]) #img_filepath contient à la fois le n° du dossier et le n° de frame 
             print(self.img_filepath[item : item+self.RNN_len])
+            sequence_img = torch.load(self.img_filepath[item : item+self.RNN_len]) #img_filepath contient à la fois le n° du dossier et le n° de frame 
             sequence_phase = self.read_phase(self.img_filepath[item : item+self.RNN_len])
         else:
             sequence_img = torch.load(self.img_filepath[item:])
