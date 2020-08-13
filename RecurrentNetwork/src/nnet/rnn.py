@@ -21,7 +21,7 @@ class MyNetwork_RNN(AbstractNet):
         self.LSTM = nn.LSTM(1024, 512, 2)
         self.RNN = nn.RNN(512, self.config['CNN']['n_classes'], 1)
 
-    def forward(self, input_tensors, seq_size, *args, **kwargs): #récupérer la batch_size, répéter le h0 pour chaque échantillon du batch
+    def forward(self, input_tensors, seq_size): #récupérer la batch_size, répéter le h0 pour chaque échantillon du batch
         b = input_tensors.size(0)
         h0 = self.h0_i.repeat(1, b, 1)
         c0 = self.c0_i.repeat(1, b, 1)

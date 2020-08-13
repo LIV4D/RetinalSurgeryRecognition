@@ -39,7 +39,7 @@ class Trainer(Manager):
             gts = self.to_device(batch[1])
             seq_len = batch[2]
             
-            out_RNN = self.network(img)
+            out_RNN = self.network(img, seq_len)
             
             out_RNN = out_RNN.view(-1, out_RNN.size(-1))
             seq_len = torch.flatten(seq_len).view(-1, 1)
@@ -93,7 +93,7 @@ class Trainer(Manager):
             gts = self.to_device(batch[1])
             seq_len = batch[2]
             
-            out_RNN = self.network(img)
+            out_RNN = self.network(img, seq_len)
             
             out_RNN = out_RNN.view(-1, out_RNN.size(-1))
             seq_len = torch.flatten(seq_len).view(-1, 1)
