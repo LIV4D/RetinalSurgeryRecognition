@@ -82,7 +82,7 @@ class ImagesDataset(Dataset):
                 sequence_img = torch.cat((sequence_img, img), 0)
             sequence_phase = self.read_phase(self.img_filepath[item:])
         
-        seq_len = sequence_img.shape[0]     
+        seq_len = sequence_img.shape[0]*sequence_img.shape[1]     
         
         return self.pad_seq(sequence_img), self.pad_seq(sequence_phase), seq_len
     
