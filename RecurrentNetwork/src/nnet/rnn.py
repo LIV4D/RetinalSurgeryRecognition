@@ -1,9 +1,8 @@
 from torch import nn
 import torch
-import torchvision.models.segmentation as models
-import torchvision.models as allmodels
 from src.nnet.abstract_network import AbstractNet
-from .blocks.core import ConvLayer
+from torch.nn.utils.rnn import pad_packed_sequence
+from torch.nn.utils.rnn import pack_padded_sequence
 
 class MyNetwork_RNN(AbstractNet):
     """
@@ -13,23 +12,29 @@ class MyNetwork_RNN(AbstractNet):
     def __init__(self, config):
         self.config = config
         super(MyNetwork_RNN, self).__init__()
-        self.h0 = nn.Parameter(torch.zeros(2, self.config['Dataset']['batch_size'], 512))
-        self.c0 = nn.Parameter(torch.zeros(2, self.config['Dataset']['batch_size'], 512))
+        self.h0 = nn.Parameter(torch.zeros(2, 1, 512))
+        self.c0 = nn.Parameter(torch.zeros(2, 1, 512))
         #paramètre donc des gradients seront calculés dessus
-        self.h0_RNN = nn.Parameter(torch.zeros(1, self.config['Dataset']['batch_size'], self.config['CNN']['n_classes']))
+        self.h0_RNN = nn.Parameter(torch.zeros(1, 1, self.config['CNN']['n_classes']))
         #pas forcément nécessaire
         
         self.LSTM = nn.LSTM(1024, 512, 2)
         self.RNN = nn.RNN(512, self.config['CNN']['n_classes'], 1)
+
+    def forward(self, input_tensors, seq_size, *args, **kwargs): #récupérer la batch_size, répéter le h0 pour chaque échantillon du batch
+        b = input_tensors.size(0)
+        h0 = self.h0_i.repeat(1, b, 1)
+        c0 = self.c0_i.repeat(1, b, 1)
+        h0_RNN = self.h0_RNN_i.repeat(1, b, 1)
         
-        softmax = nn.Softmax(2)
-
-        self.softmax = softmax
-
-    def forward(self, input_tensors):
-        intermed = self.LSTM(input_tensors, self.h0, self.c0)
-        output = self.RNN(intermed, self.h0_RNN)
-        return self.softmax(output) #was [0]
+        input_tensors = pack_padded_sequence(input_tensors, seq_size, batch_first = self.batch_first, enforce_sorted = False)
+        intermed = self.LSTM(input_tensors, h0, c0)
+        output = self.RNN(intermed, h0_RNN)
+        OUT = self.unpad(output)
+        return OUT #was [0]
+    
+    def unpad(self, x):
+        return pad_packed_sequence(x, batch_first=self.batch_first)[0] #voir doc, selon la dimension de X
 
 #dimensions input_tensors : (seq,batch,num_features)
 #dimensions output : seq,batch,num_classes

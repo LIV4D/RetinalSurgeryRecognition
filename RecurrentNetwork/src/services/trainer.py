@@ -18,7 +18,7 @@ class Trainer(Manager):
 
         self.loss = []
         self.setup_loss()
-        #self.setup_optims()
+        self.setup_optims()
         self.is_first_valid = True
         self.best_valid_loss = 1e8
 
@@ -33,36 +33,34 @@ class Trainer(Manager):
         length_dataloader = len(dataloader)
         print("Epoch %i"%e)
         print("-"*15)
-        out_cat = torch.FloatTensor()
-        gts_cat = torch.LongTensor()
         for i, batch in tqdm.tqdm(enumerate(dataloader)):
             index = e*length_dataloader+i
             img = self.to_device(batch[0])
             gts = self.to_device(batch[1])
+            seq_len = batch[2]
             
-            out_CNN = self.network(img)  
+            out_RNN = self.network(img)
             
-            out_cat = torch.cat((out_cat,out_CNN),0)
-            gts_cat = torch.cat((gts_cat,gts),0)
+            out_RNN = out_RNN.view(-1, out_RNN.size(-1))
+            seq_len = torch.flatten(seq_len).view(-1, 1)
+            gts = torch.flatten(gts)
+            masked_output = seq_len * out_RNN
             
-            if index % self.train_config['rnn_sequence'] == 0:
-                out_RNN = self.LSTM(out_cat)
-                loss = self.loss(out_RNN, gts_cat)
+            loss = self.loss(masked_output, gts)
     
-                if index % self.config['Validation']['validation_step'] == 0:
-                     """
-                     Validation and saving of the model
-                     """
-                        
-                     with torch.no_grad():
-                         valid_loss = self.validate(index)
-                         if valid_loss < self.best_valid_loss:
-                             self.best_valid_loss = valid_loss
-                             filename = 'trained_model_iter_%i_loss_%.4f.pth'%(index, valid_loss)
-                             filename = os.path.join(self.output_dir, 'trained_model', filename)
-                             self.network.save_model(filename, optimizers=self.opt)
+            if index % self.config['Validation']['validation_step'] == 0:
+                """
+                Validation and saving of the model
+                """                        
+                with torch.no_grad():
+                    valid_loss = self.validate(index)
+                    if valid_loss < self.best_valid_loss:
+                        self.best_valid_loss = valid_loss
+                        filename = 'trained_model_iter_%i_loss_%.4f.pth'%(index, valid_loss)
+                        filename = os.path.join(self.output_dir, 'trained_model', filename)
+                        self.network.save_model(filename, optimizers=self.opt)
                 
-                self.backward_and_step(loss) #On appel la backpropagation
+            self.backward_and_step(loss) #On appel la backpropagation
 
     def train(self):
         """
@@ -91,20 +89,26 @@ class Trainer(Manager):
         length = len(Validation)
         for i, batch in enumerate(Validation):
             print('Batch %i out of %i'%(i,length))
-            index = current_index*length+i
-            batch = self.to_device(batch)
-            img = batch[0]
-            gts = batch[1]
-            out = self.network(img)
-            out = self.softmax(out)
-            loss = self.loss(out,gts)
-            pred = torch.argmax(out, 1, keepdim = True)
+            img = self.to_device(batch[0])
+            gts = self.to_device(batch[1])
+            seq_len = batch[2]
+            
+            out_RNN = self.network(img)
+            
+            out_RNN = out_RNN.view(-1, out_RNN.size(-1))
+            seq_len = torch.flatten(seq_len).view(-1, 1)
+            gts = torch.flatten(gts)
+            masked_output = seq_len * out_RNN
+        
+            loss = self.loss(masked_output,gts)
+            
+            pred = torch.argmax(out_RNN, 1, keepdim = True)
             pred = pred.view(-1)
             loss_out.append(loss.item())
             
             gts_cat = torch.cat((gts_cat,gts.cpu()),0)
             pred_cat = torch.cat((pred_cat,pred.cpu()),0)
-            out_cat = torch.cat((out_cat,out.cpu()),0)
+            out_cat = torch.cat((out_cat,out_RNN.cpu()),0)
             
             
         gts_cat = gts_cat.numpy()
@@ -154,7 +158,7 @@ class Trainer(Manager):
         :return:
         """
         #self.loss = nn.CrossEntropyLoss(weight = self.to_device(self.datasetManager.class_weights))
-        self.loss = nn.CrossEntropyLoss()
+        self.loss = nn.CrossEntropyLoss(ignore_index = -1)
 
     def backward_and_step(self, loss):
         """

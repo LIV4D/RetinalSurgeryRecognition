@@ -18,7 +18,7 @@ class ImagesDataset(Dataset):
     et la phase associée, mais cela prend de réfléchir à la gestion de la phase. Une facon de faire serait de stocker
     cette information dans un fichier qui puisse être lu par pandas. A chaque image
     """
-    def __init__(self, groundtruth_list, path_weights, path_img, shape=(512, 512), recursive=True): #passer le tableau ou le chemin
+    def __init__(self, groundtruth_list, path_weights, path_img, shape=(512, 512), RNN_len=100, recursive=True): #passer le tableau ou le chemin
         """
         A compléter éventuellement pour prendre en entrée le chemin vers le fichier des phases (groundtruth)
         :param path_img:
@@ -34,11 +34,12 @@ class ImagesDataset(Dataset):
         self.da_core = None  # Data augmentation instance. Only initialized if required
         
         self.groundtruth_list = groundtruth_list
+        self.RNN_len = RNN_len
         
         self.img_filepath = []
 
         for file in os.listdir(self.path_img):
-            self.img_filepath.extend(glob.glob(self.path_img + file + '/' + '*.jpg', recursive=recursive))
+            self.img_filepath.extend(glob.glob(self.path_img + file + '/' + '*.jpg', recursive=recursive)) #was .pt
 
         img_filenames = [path_leaf(path).split('.')[0] for path in self.img_filepath] #Liste de toutes les images ['frame0', 'frame1', ...]
 
@@ -46,12 +47,8 @@ class ImagesDataset(Dataset):
         img_argsort = np.argsort(img_filenames)
         self.img_filepath = self.img_filepath[img_argsort] #array de tous les paths (\data01\frameX.jpg), pas dans l'ordre
         self.img_filepath = natsorted(self.img_filepath)
-        
-        """
-        Valeurs de normalisation à adopter si tu utilises un modèle de torchvision
-        """
-        self.normalize_mean = np.asarray([0.485, 0.456, 0.406])[:, np.newaxis, np.newaxis].astype(np.float32)
-        self.normalize_std = np.asarray([0.229, 0.224, 0.225])[:, np.newaxis, np.newaxis].astype(np.float32)
+        self.img_filepath = np.array(self.img_filepath)
+
 
     def set_data_augmentation_core(self, da_core):
         # self.da_core = da_core
@@ -62,15 +59,10 @@ class ImagesDataset(Dataset):
 
     def __len__(self):
         return len(self.img_filepath)
-
-    def normalize(self, img):
-        """
-        Fonction de normalisation (voir documentation de torchvision)
-        :param img:
-        :return:
-        """
-        img = (img.astype(np.float32) - self.normalize_mean) / self.normalize_std
-        return img
+    
+    #diviser et multiplier dans getitem
+    # - RNN_len
+    #padding
 
     def __getitem__(self, item):
         """
@@ -78,17 +70,32 @@ class ImagesDataset(Dataset):
         :param item:
         :return:
         """
-        img = load_image(self.img_filepath[item]) #img_filepath contient à la fois le n° du dossier et le n° de frame
-        img = cv2.resize(img, dsize=self.shape).astype(np.uint8)
-        img = img.transpose((2, 0, 1)).astype(np.float32) / 255.
-        img = self.normalize(img)
+        if len(self.img_filepath[item:]) > self.RNN_len:
+            sequence_img = torch.load(self.img_filepath[item : item+self.RNN_len]) #img_filepath contient à la fois le n° du dossier et le n° de frame        
+            sequence_phase = self.read_phase(self.img_filepath[item : item+self.RNN_len])
+        else:
+            sequence_img = torch.load(self.img_filepath[item:])
+            sequence_phase = self.read_phase(self.img_filepath[item:])
         
-        phase = self.read_phase(self.img_filepath[item])
+        seq_len = sequence_img.shape[0]     
         
-        return torch.from_numpy(img), phase, self.img_filepath[item] #retourne la phase en tant qu'entier
+        return self.pad_seq(sequence_img), self.pad_seq(sequence_phase), seq_len
+    
+    def pad_seq(self, array):
+        shape = array.shape
+        dtype = array.dtype
+        pad = self.RNN_len - shape[0]
+        padding = [(0, pad)] + [(0, 0) for _ in shape[1:]]
+        padded_array = np.pad(array, padding, mode='constant', constant_values=-1)
 
+        if dtype==int:
+            return padded_array.astype(dtype)
+        else:
+            return padded_array.astype(np.float32)
 
-
+    #padding dans getitem
+    #padding dans le trainer
+    #ignorer les valeurs dans CrossEntropyLoss
 
     def get_classes_weight(self):
         """ Fonction à implémenter potentiellement: elle charge ou calcul une pondération par classe permettant de les
@@ -119,26 +126,28 @@ class ImagesDataset(Dataset):
         return class_weights
     
                         
-    def read_phase(self, filepath):
+    def read_phase(self, filepaths):
+        Phases = []
+        for filepath in filepaths:
+            #find the number X of the video and the number Y of the image, saved in a file dataX with the name frameY
+            temp = re.findall(r'\d+', filepath)
+            res = list(map(int, temp))
+            X = res[-2] - 1  #les indices de la list groundtruth démarrent à 0 et les fichiers dataX démarrent à 1
+            Y = res[-1]
+            groundtruth = self.groundtruth_list[X]
+                   
+            B = (groundtruth.at[Y,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
+             
+            temp = re.findall(r'\d+', B) 
+            res = list(map(int, temp)) #getting numbers from the string B = "frame_number,step_number" 
+            
+            #if there was no Steps value specified, then there is no surgical phase on the image
+            if len(res) == 2:
+                Phase = res[1]
+            else:
+                Phase = 0
+                
+            Phases.append(Phase)
         
-        #find the number X of the video and the number Y of the image, saved in a file dataX with the name frameY
-        temp = re.findall(r'\d+', filepath)
-        res = list(map(int, temp))
-        X = res[-2] - 1  #les indices de la list groundtruth démarrent à 0 et les fichiers dataX démarrent à 1
-        Y = res[-1]
-        groundtruth = self.groundtruth_list[X]
-               
-        B = (groundtruth.at[Y,"Frame,Steps"]) #groundtruth est un DataFrame créé par Pandas regroupant toutes les informations Frame,Steps
-         
-        temp = re.findall(r'\d+', B) 
-        res = list(map(int, temp)) #getting numbers from the string B = "frame_number,step_number" 
-        
-        #if there was no Steps value specified, then there is no surgical phase on the image
-        if len(res) == 2:
-            Phase = res[1]
-        else:
-            Phase = 0
-    
-        
-        return Phase
+        return torch.LongTensor(Phases)
         

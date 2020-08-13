@@ -7,10 +7,10 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 1 #was 4
+  batch_size: 4 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN)
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
-  img_folder: '/home/clement/CATARACTS/Testing_Data/'
-  #img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/'
+  #img_folder: '/home/clement/CATARACTS/Testing_Data/'
+  img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/'
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Training_Data\'
   load_recursirvely: True
@@ -19,7 +19,7 @@ Dataset:
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
   path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights/
   #path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\weights\
-
+  rnn_sequence: 100
 
 Validation:
   validation_step: 500
@@ -35,7 +35,7 @@ Training:
   save_iteration: 20000
   weighted_loss: True
   train_flag: True
-  rnn_sequence: 100
+  
 
 Testing:
   log_file: test_results.log

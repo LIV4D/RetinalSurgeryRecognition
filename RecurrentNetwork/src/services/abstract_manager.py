@@ -13,8 +13,8 @@ class Manager:
     def __init__(self, config):
         self.config = config
         self.manager_config = self.config['Manager']
-        self.network = MyNetwork(self.config['CNN']) #CNN ou RNN
-        #self.RNN = MyNetwork_RNN(self.config)
+        #self.network = MyNetwork(self.config['CNN']) #CNN ou RNN
+        self.network = MyNetwork_RNN(self.config)
         
 
         self.datasetManager = DatasetManager(self.config['Dataset'])

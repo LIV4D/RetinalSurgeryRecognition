@@ -16,10 +16,11 @@ class DatasetManager:
         self.groundtruth_path = self.config['groundtruth_path']
         self.dataset_args = {'path_img': self.config['img_folder'],
                              'shape': self.img_size,
+                             'RNN_len':self.config['rnn_sequence'],
                              'recursive': self.config['load_recursirvely']}
         self.groundtruth_list = self.get_ground_truth_list(self.groundtruth_path)
         self.dataset = ImagesDataset(self.groundtruth_list, self.config['path_weights'], **self.dataset_args) #on passe le tableau groundtruth directement dans la classe ImagesDataset
-        self.class_weights = self.get_classes_weights()
+        #self.class_weights = self.get_classes_weights()
         print('Found %i images for current experimentation' % len(self.dataset))
         """
         The validation set will only be initialed if build_validation_set is called (for training, not testing)
@@ -29,19 +30,26 @@ class DatasetManager:
 
     def build_validation_set(self):
         len_dataset = len(self.dataset)
-        indices = np.arange(len_dataset)
+        indices = np.arange(len_dataset) #couper le 0 ??
         np.random.shuffle(indices)
-        valid_len = int(len_dataset * self.config['validation_ratio'])
-        valid_indices = indices[:valid_len]
-        train_indices = indices[valid_len:]
+        valid_len = int(len_dataset * 1/self.config['rnn_sequence'] * self.config['validation_ratio'])
+        valid_indices_start = indices[:valid_len] #on utilise cette liste pour le dataset
+        valid_indices = []
+        for i in valid_indices_start:
+            L = np.arange(i, i+self.config['rnn_sequence'])
+            L = L.tolist()
+            valid_indices = valid_indices + L #cette liste va seulement servir à delete les éléments de validation de l'ensemble "training"
+        train_indices = indices  #pas efficace, créer directement la liste avec les nombres en moins plutôt que de les enlever après ?
+        for i in valid_indices:
+            train_indices = train_indices[train_indices != i]
         self.dataset.subset(train_indices)
         self.validation_dataset = ImagesDataset(self.groundtruth_list, self.config['path_weights'], **self.dataset_args)
-        self.validation_dataset.subset(valid_indices)
+        self.validation_dataset.subset(valid_indices_start) #ne donne que le début de la séquence de 100 images, car getitem renvoie déjà 100 images consécutives
 
 
     def get_dataloader(self, shuffle=True, drop_last=True):
         return DataLoader(self.dataset,
-                          batch_size=self.batch_size,
+                          batch_size=self.batch_size, 
                           shuffle=shuffle,
                           pin_memory=self.config['pin_memory'],
                           drop_last=drop_last,
@@ -55,12 +63,12 @@ class DatasetManager:
             return classes_weight
 
     def get_validation_dataloader(self):
-        L = len(self.validation_dataset)
-        subset_indices = np.random.randint(0,L,int(L/5))
+        #L = len(self.validation_dataset)
+        #subset_indices = np.random.randint(0,L,int(L/5))
         #choisi aléatoirement L/5 images numérotées de 0 à L
-        subset = Subset(self.validation_dataset,subset_indices)
+        #subset = Subset(self.validation_dataset,subset_indices)
         if self.validation_dataset is not None:
-            return DataLoader(subset,
+            return DataLoader(self.validation_dataset,
                               batch_size=self.batch_size,
                               shuffle=True,
                               pin_memory=self.config['pin_memory'],
