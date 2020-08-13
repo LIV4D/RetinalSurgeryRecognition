@@ -11,6 +11,7 @@ class MyNetwork_RNN(AbstractNet):
     """
     def __init__(self, config):
         self.config = config
+        self.batch_first = True
         super(MyNetwork_RNN, self).__init__()
         self.h0 = nn.Parameter(torch.zeros(2, 1, 512))
         self.c0 = nn.Parameter(torch.zeros(2, 1, 512))
