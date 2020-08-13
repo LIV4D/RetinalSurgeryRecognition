@@ -13,12 +13,16 @@ class MyNetwork_RNN(AbstractNet):
         self.config = config
         self.batch_first = True
         super(MyNetwork_RNN, self).__init__()
-        self.h0 = nn.Parameter(torch.zeros(2, 1, 512))
-        self.c0 = nn.Parameter(torch.zeros(2, 1, 512))
-        self.h0 = self.h0.cuda()
-        self.c0 = self.c0.cuda()
+        h0 = nn.Parameter(torch.zeros(2, 1, 512))
+        c0 = nn.Parameter(torch.zeros(2, 1, 512))
+        h0 = h0.cuda()
+        c0 = c0.cuda()
+        self.h0 = h0
+        self.c0 = c0
         #paramètre donc des gradients seront calculés dessus
-        self.h0_RNN = nn.Parameter(torch.zeros(1, 1, self.config['CNN']['n_classes']))
+        h0_RNN = nn.Parameter(torch.zeros(1, 1, self.config['CNN']['n_classes']))
+        h0_RNN = h0_RNN.cuda()
+        self.h0_RNN = h0_RNN
         #pas forcément nécessaire
         
         self.LSTM = nn.LSTM(1024, 512, 2)
