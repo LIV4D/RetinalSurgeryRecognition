@@ -23,9 +23,9 @@ class MyNetwork_RNN(AbstractNet):
 
     def forward(self, input_tensors, seq_size): #récupérer la batch_size, répéter le h0 pour chaque échantillon du batch
         b = input_tensors.size(0)
-        h0 = self.h0_i.repeat(1, b, 1)
-        c0 = self.c0_i.repeat(1, b, 1)
-        h0_RNN = self.h0_RNN_i.repeat(1, b, 1)
+        h0 = self.h0.repeat(1, b, 1)
+        c0 = self.c0.repeat(1, b, 1)
+        h0_RNN = self.h0_RNN.repeat(1, b, 1)
         
         input_tensors = pack_padded_sequence(input_tensors, seq_size, batch_first = self.batch_first, enforce_sorted = False)
         intermed = self.LSTM(input_tensors, h0, c0)
