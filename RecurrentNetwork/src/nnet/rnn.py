@@ -15,6 +15,8 @@ class MyNetwork_RNN(AbstractNet):
         super(MyNetwork_RNN, self).__init__()
         self.h0 = nn.Parameter(torch.zeros(2, 1, 512))
         self.c0 = nn.Parameter(torch.zeros(2, 1, 512))
+        self.h0 = self.h0.cuda()
+        self.c0 = self.c0.cuda()
         #paramètre donc des gradients seront calculés dessus
         self.h0_RNN = nn.Parameter(torch.zeros(1, 1, self.config['CNN']['n_classes']))
         #pas forcément nécessaire
