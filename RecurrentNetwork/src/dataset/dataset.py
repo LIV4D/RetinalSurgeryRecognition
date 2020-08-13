@@ -91,7 +91,7 @@ class ImagesDataset(Dataset):
         dtype = array.dtype
         pad = self.RNN_len - shape[0]
         padding = [(0, pad)] + [(0, 0) for _ in shape[1:]]
-        padded_array = np.pad(array, padding, mode='constant', constant_values=-1)
+        padded_array = np.pad(array.detach(), padding, mode='constant', constant_values=-1)
 
         if dtype==int:
             return padded_array.astype(dtype)
