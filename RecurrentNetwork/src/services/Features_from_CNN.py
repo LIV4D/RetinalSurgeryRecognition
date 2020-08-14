@@ -5,10 +5,10 @@ import numpy as np
 import random
 import re
 
-from src.utils.torch_utils import DataParallel
-from src.dataset.dataset_manager import DatasetManager
-from src.nnet.cnn import MyNetwork
-from src.utils.io import create_folder
+from src2.utils.torch_utils import DataParallel
+from src2.dataset.dataset_manager import DatasetManager
+from src2.nnet.cnn import MyNetwork
+from src2.utils.io import create_folder
 
 class Builder:
     def __init__(self, config_file, output_dir):

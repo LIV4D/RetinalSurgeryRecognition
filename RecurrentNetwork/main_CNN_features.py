@@ -12,8 +12,8 @@ config_path = 'src/configs/configFile.yaml'
 with open(config_path) as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
     
-output_dir = '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/Testing_Data'
-
+#output_dir = '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/Testing_Data'
+output_dir = 'C:\\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\RetinalSurgeryRecognition\RecurrentNetwork\CNN_features'
 
 if os.path.exists(output_dir):
     answer = input("Overwrite features from CNN ? [y/n]\n")
