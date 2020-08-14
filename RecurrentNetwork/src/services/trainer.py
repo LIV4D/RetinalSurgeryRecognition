@@ -37,16 +37,19 @@ class Trainer(Manager):
             index = e*length_dataloader+i
             img = self.to_device(batch[0])
             gts = self.to_device(batch[1])
+            gts = gts.long()
             seq_len = batch[2]
             
             out_RNN = self.network(img, seq_len)
             
             out_RNN = out_RNN.view(-1, out_RNN.size(-1))
-            seq_len = torch.flatten(seq_len).view(-1, 1)
             gts = torch.flatten(gts)
-            masked_output = seq_len * out_RNN
             
-            loss = self.loss(masked_output, gts)
+            #seq_len = torch.flatten(seq_len).view(-1, 1) #doit être un masque et pas un entier
+            #seq_len = seq_len.cuda()
+            #masked_output = seq_len * out_RNN   à utiliser si utilisation de masques !! de la forme [1,1,1,1,1,0,0,0,0]
+            
+            loss = self.loss(out_RNN, gts)
     
             if index % self.config['Validation']['validation_step'] == 0:
                 """
@@ -91,16 +94,19 @@ class Trainer(Manager):
             print('Batch %i out of %i'%(i,length))
             img = self.to_device(batch[0])
             gts = self.to_device(batch[1])
+            gts = gts.long()
             seq_len = batch[2]
             
             out_RNN = self.network(img, seq_len)
             
             out_RNN = out_RNN.view(-1, out_RNN.size(-1))
-            seq_len = torch.flatten(seq_len).view(-1, 1)
             gts = torch.flatten(gts)
-            masked_output = seq_len * out_RNN
-        
-            loss = self.loss(masked_output,gts)
+            
+            #seq_len = torch.flatten(seq_len).view(-1, 1)
+            #seq_len = seq_len.cuda()            
+            #masked_output = seq_len * out_RNN
+            
+            loss = self.loss(out_RNN,gts)
             
             pred = torch.argmax(out_RNN, 1, keepdim = True)
             pred = pred.view(-1)
@@ -110,9 +116,6 @@ class Trainer(Manager):
             pred_cat = torch.cat((pred_cat,pred.cpu()),0)
             out_cat = torch.cat((out_cat,out_RNN.cpu()),0)
             
-            
-        gts_cat = gts_cat.numpy()
-        pred_cat = pred_cat.numpy()
 
         gts_onehot = self.one_hot(gts_cat, n_class)
         pred_onehot = self.one_hot(pred_cat, n_class)
