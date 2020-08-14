@@ -7,7 +7,7 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 4 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN)
+  batch_size: 1 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN)
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   #img_folder: '/home/clement/CATARACTS/Testing_Data/'
   img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/Training_Data/'
