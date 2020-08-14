@@ -73,15 +73,12 @@ class ImagesDataset(Dataset):
         sequence_img = torch.FloatTensor()
         if len(self.img_filepath[item:]) > self.RNN_len:
             for tensor in self.img_filepath[item : item + self.RNN_len]:
-                CNN_output = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
-                print(CNN_output)
-                img = CNN_output.logits
+                img = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
                 sequence_img = torch.cat((sequence_img, img), 0)
             sequence_phase = self.read_phase(self.img_filepath[item : item+self.RNN_len])
         else:
             for tensor in self.img_filepath[item:]:
-                CNN_output = torch.load(tensor, map_location = torch.device('cpu'))
-                img = CNN_output.logits
+                img = torch.load(tensor, map_location = torch.device('cpu'))
                 sequence_img = torch.cat((sequence_img, img), 0)
             sequence_phase = self.read_phase(self.img_filepath[item:])
         
