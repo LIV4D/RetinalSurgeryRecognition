@@ -85,8 +85,6 @@ class ImagesDataset(Dataset):
                 seq_len = len(sequence_img)
             sequence_phase = self.read_phase(self.img_filepath[item:])
         
-        seq_len = len(sequence_img)
-        
         return self.pad_seq(sequence_img), self.pad_seq(sequence_phase), seq_len
     
     def pad_seq(self, array):
