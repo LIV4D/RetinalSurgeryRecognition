@@ -76,14 +76,14 @@ class ImagesDataset(Dataset):
             for tensor in self.img_filepath[item : item + self.RNN_len]:
                 img = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
                 sequence_img = torch.cat((sequence_img, img), 0)
-                seq_len = len(sequence_img)
             sequence_phase = self.read_phase(self.img_filepath[item : item+self.RNN_len])
         else:
             for tensor in self.img_filepath[item:]:
                 img = torch.load(tensor, map_location = torch.device('cpu'))
                 sequence_img = torch.cat((sequence_img, img), 0)
-                seq_len = len(sequence_img)
             sequence_phase = self.read_phase(self.img_filepath[item:])
+        
+        seq_len = len(sequence_img)
         
         return self.pad_seq(sequence_img), self.pad_seq(sequence_phase), seq_len
     
