@@ -17,10 +17,7 @@ class Tester(Manager):
         super(Tester, self).__init__(config)
         self.config_testing = self.config['Testing']
         self.results_path = os.path.join(self.exp_path, 'test' + custom_test_name + '/')
-#        self.prediction_path = os.path.join(self.results_path, 'predictions')
         create_folder(self.results_path)
-#        if self.config_testing['save_prediction']:
-#            create_folder(self.prediction_path)
 
         if not self.config['CNN']['trained_model_path']:
             """
@@ -34,13 +31,18 @@ class Tester(Manager):
     def inference(self):
         with torch.no_grad():
             for i, batch in tqdm.tqdm(enumerate(self.datasetManager.get_dataloader(shuffle=False, drop_last=False))):
-                batch = self.to_device(batch)
-                img = batch[0]
-                gts = batch[1]            
-                out = self.network(img)
+                img = self.to_device(batch[0])
+                gts = self.to_device(batch[1])
+                gts = gts.long()
+                seq_len = batch[2]
                 
-                probs = self.softmax(out)
-                pred = torch.argmax(out, 1, keepdim = True)
+                out_RNN = self.network(img, seq_len)
+                
+                out_RNN = out_RNN.view(-1, out_RNN.size(-1))
+                gts = torch.flatten(gts)
+                
+                probs = self.softmax(out_RNN)
+                pred = torch.argmax(out_RNN, 1, keepdim = True)
                 pred = pred.view(-1)               
                               
                 batch_number = str(i)                
