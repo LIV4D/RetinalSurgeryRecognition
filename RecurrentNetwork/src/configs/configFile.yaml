@@ -27,7 +27,7 @@ Validation:
   max_batch_validation: 4
 
 Training:
-  nb_epochs: 1
+  nb_epochs: 10
   loss_type: CE+dice
   lr: 0.001
   b1: 0.9
