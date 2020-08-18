@@ -23,6 +23,7 @@ if os.path.exists(output_dir):
         sys.exit("Experiment already done")
     else:
         print('Enter y or n')
+        sys.exit("Error")
 else:
     create_folder(output_dir)
 

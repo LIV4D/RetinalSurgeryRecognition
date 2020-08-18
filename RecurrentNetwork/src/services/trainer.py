@@ -108,6 +108,7 @@ class Trainer(Manager):
             
             loss = self.loss(out_RNN,gts)
             
+            
             pred = torch.argmax(out_RNN, 1, keepdim = True)
             pred = pred.view(-1)
             loss_out.append(loss.item())

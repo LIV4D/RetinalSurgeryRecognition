@@ -45,9 +45,7 @@ class ImagesDataset(Dataset):
 
         self.img_filepath = np.asarray(self.img_filepath)
         img_argsort = np.argsort(img_filenames)
-        self.img_filepath = self.img_filepath[img_argsort] #array de tous les paths (\data01\frameX.jpg), pas dans l'ordre
-        self.img_filepath = natsorted(self.img_filepath)
-        self.img_filepath = np.array(self.img_filepath)
+        self.img_filepath = self.img_filepath[img_argsort] #array de tous les paths (\data01\frameX.jpg), pas dans l'ordre      
 
 
     def set_data_augmentation_core(self, da_core):
@@ -55,7 +53,8 @@ class ImagesDataset(Dataset):
         pass
 
     def subset(self, indices):
-        self.img_filepath = self.img_filepath[indices]
+        self.img_filepath = natsorted(self.img_filepath[indices])
+        self.img_filepath = np.array(self.img_filepath)
 
     def __len__(self):
         return len(self.img_filepath)
@@ -70,17 +69,24 @@ class ImagesDataset(Dataset):
         :param item:
         :return:
         """
+        video = self.video_number(self.img_filepath[item])
         sequence_img = torch.FloatTensor()
         seq_len = torch.FloatTensor()
         if len(self.img_filepath[item:]) > self.RNN_len:
             for tensor in self.img_filepath[item : item + self.RNN_len]:
-                img = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
-                sequence_img = torch.cat((sequence_img, img), 0)
+                if self.video_number(tensor) == video:
+                    img = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
+                    sequence_img = torch.cat((sequence_img, img), 0)
+                else: 
+                    break
             sequence_phase = self.read_phase(self.img_filepath[item : item+self.RNN_len])
         else:
             for tensor in self.img_filepath[item:]:
-                img = torch.load(tensor, map_location = torch.device('cpu'))
-                sequence_img = torch.cat((sequence_img, img), 0)
+                if self.video_number(tensor) == video:
+                    img = torch.load(tensor, map_location = torch.device('cpu'))
+                    sequence_img = torch.cat((sequence_img, img), 0)
+                else:
+                    break
             sequence_phase = self.read_phase(self.img_filepath[item:])
         
         seq_len = len(sequence_img)
@@ -156,4 +162,9 @@ class ImagesDataset(Dataset):
             Phases.append(Phase)
         
         return torch.LongTensor(Phases)
+    
+    def video_number(self,filepath):
+            temp = re.findall(r'\d+', filepath)
+            res = list(map(int, temp))
+            return res[-2]
         
