@@ -50,6 +50,8 @@ class Trainer(Manager):
             #masked_output = seq_len * out_RNN   à utiliser si utilisation de masques !! de la forme [1,1,1,1,1,0,0,0,0]
             
             loss = self.loss(out_RNN, gts)
+            
+            self.tb_writer.add_scalar('Training Loss',loss,index)
     
             if index % self.config['Validation']['validation_step'] == 0:
                 """
@@ -118,26 +120,18 @@ class Trainer(Manager):
             out_cat = torch.cat((out_cat,out_RNN.cpu()),0)
             
 
-        gts_onehot = self.one_hot(gts_cat, n_class)
-        pred_onehot = self.one_hot(pred_cat, n_class)
-        proba = out_cat.numpy()
+        #gts_onehot = self.one_hot(gts_cat, n_class)
+        #pred_onehot = self.one_hot(pred_cat, n_class)
+        #proba = out_cat.numpy()
         
-        fpr = dict()
-        tpr = dict()
-        AUC_roc = dict()
-        Mean_roc = []
-        for k in range(n_class):
-            fpr[k], tpr[k], _ = sklearn.metrics.roc_curve(gts_onehot[:,k], proba[:,k])
-            AUC_roc[k] = sklearn.metrics.auc(fpr[k], tpr[k])        
-            self.tb_writer.add_scalar('AUC_Roc classe %i'%k, AUC_roc[k], current_index)
-            
-            Mean_roc.append(AUC_roc[k])
-            
+        f1_score = sklearn.metrics.f1_score(gts_cat,pred_cat, average = 'macro')
+        Kappa = sklearn.metrics.cohen_kappa_score(gts_cat,pred_cat)
         Accuracy = sklearn.metrics.accuracy_score(gts_cat,pred_cat)  
         
-        self.tb_writer.add_scalar('Mean AUC_roc', np.nanmean(Mean_roc), current_index)
+        self.tb_writer.add_scalar("f1 score",f1_score,current_index)
+        self.tb_writer.add_scalar('Kappa score',Kappa,current_index)
         self.tb_writer.add_scalar('Accuracy', Accuracy, current_index)
-        self.tb_writer.add_scalar('Loss', np.mean(loss_out), current_index)
+        self.tb_writer.add_scalar('Valid_Loss', np.mean(loss_out), current_index)
         
         return np.mean(loss_out)
 
