@@ -71,15 +71,16 @@ class ImagesDataset(Dataset):
         """
         video = self.video_number(self.img_filepath[item])
         sequence_img = torch.FloatTensor()
-        seq_len = torch.FloatTensor()
+        seq_len = 0
         if len(self.img_filepath[item:]) > self.RNN_len:
             for tensor in self.img_filepath[item : item + self.RNN_len]:
                 if self.video_number(tensor) == video:
+                    seq_len += 1
                     img = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
                     sequence_img = torch.cat((sequence_img, img), 0)
                 else: 
                     break
-            sequence_phase = self.read_phase(self.img_filepath[item : item+self.RNN_len])
+            sequence_phase = self.read_phase(self.img_filepath[item : item+seq_len])
         else:
             for tensor in self.img_filepath[item:]:
                 if self.video_number(tensor) == video:

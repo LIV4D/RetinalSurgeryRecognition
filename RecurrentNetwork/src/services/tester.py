@@ -41,13 +41,13 @@ class Tester(Manager):
                 
                 img = img.view(-1,img.size(-1))
                 out_RNN = out_RNN.view(-1, out_RNN.size(-1))
-
                 
-                probs = self.softmax(out_RNN)
+                probs = self.softmax(out_RNN[:seq_len])
                 pred = torch.argmax(probs[-1], keepdim = True)
                 pred = pred.view(-1) 
                 
                 gts = gts.view(-1)
+                gts = gts[:seq_len]
                 gts = gts[-1]
                 gts = gts.view(-1)
                 
