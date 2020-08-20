@@ -42,4 +42,5 @@ for groundtruth in groundtruth_list:
         Classes[Phase] += 1
     
 for i in range(len(Classes)):
+    print(i, '\n', Classes[i])
     tb_writer.add_scalar('Répartition des classes', Classes[i], i)
