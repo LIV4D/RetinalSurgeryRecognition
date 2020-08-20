@@ -44,8 +44,7 @@ class Tester(Manager):
 
                 
                 probs = self.softmax(out_RNN)
-                pred = torch.argmax(probs[-1], keepdim = True)
-                pred = pred.view(-1) 
+                pred = torch.argmax(probs[-1], keepdim = True) 
                 
                 gts = gts.view(-1)
                 gts = gts[-1]
