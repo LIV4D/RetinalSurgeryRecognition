@@ -42,4 +42,4 @@ for groundtruth in groundtruth_list:
         Classes[Phase] += 1
     
 for i in range(len(Classes)):
-    tb_writer.add_histogram('Répartition des classes', Classes[i], i)
+    tb_writer.add_scalar('Répartition des classes', Classes[i], i)
