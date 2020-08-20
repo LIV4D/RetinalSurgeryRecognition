@@ -46,7 +46,7 @@ class ImagesDataset(Dataset):
         self.img_filepath = np.asarray(self.img_filepath)
         img_argsort = np.argsort(img_filenames)
         self.img_filepath = self.img_filepath[img_argsort] #array de tous les paths (\data01\frameX.jpg), pas dans l'ordre      
-
+        self.img_filepath = np.array(natsorted(self.img_filepath))
 
     def set_data_augmentation_core(self, da_core):
         # self.da_core = da_core
@@ -84,7 +84,7 @@ class ImagesDataset(Dataset):
             for tensor in self.img_filepath[item:]:
                 if self.video_number(tensor) == video:
                     img = torch.load(tensor, map_location = torch.device('cpu'))
-                    sequence_img = torch.cat((sequence_img, img), 0)
+                    sequence_img = torch.cat((sequence_img, img), 0) #img.logits
                 else:
                     break
             sequence_phase = self.read_phase(self.img_filepath[item:])

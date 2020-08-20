@@ -26,6 +26,7 @@ class Tester(Manager):
             """
             self.load_best_model()
             
+        self.n_class = self.config['CNN']['n_classes']    
         self.confusion_matrix = 0
         
     def inference(self):
@@ -38,13 +39,18 @@ class Tester(Manager):
                 
                 out_RNN = self.network(img, seq_len)
                 
+                img = img.view(-1,img.size(-1))
                 out_RNN = out_RNN.view(-1, out_RNN.size(-1))
-                gts = torch.flatten(gts)
+
                 
                 probs = self.softmax(out_RNN)
-                pred = torch.argmax(out_RNN, 1, keepdim = True)
-                pred = pred.view(-1)               
-                              
+                pred = torch.argmax(probs[-1], keepdim = True)
+                pred = pred.view(-1) 
+                
+                gts = gts.view(-1)
+                gts = gts[-1]
+                gts = gts.view(-1)
+                
                 batch_number = str(i)                
                 self.eval_batch(pred.cpu(), probs, gts.cpu(), batch_number)
                 
@@ -61,8 +67,7 @@ class Tester(Manager):
     
     
     def report_batch_into_confusion_matrix(self,gts,pred):
-        n_class = self.config['CNN']['n_classes']
-        self.confusion_matrix = self.confusion_matrix + skm.multilabel_confusion_matrix(gts, pred, labels = [i for i in range(0,n_class)])
+        self.confusion_matrix = self.confusion_matrix + skm.confusion_matrix(gts, pred, labels = [i for i in range(0,self.n_class)])
  
     
     def results_metrics(self, save_path):
