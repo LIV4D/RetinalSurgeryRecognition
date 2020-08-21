@@ -6,7 +6,7 @@ import random
 import re
 
 from src.utils.torch_utils import DataParallel
-from src.dataset_CNN.dataset_manager import DatasetManager
+from src.dataset_CNN.dataset_manager_CNN import DatasetManager
 from src.nnet.cnn import MyNetwork
 from src.utils.io import create_folder
 
