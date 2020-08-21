@@ -18,7 +18,7 @@ Dataset:
   num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
   path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights/
-  #path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
+  #◘path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
   rnn_sequence: 100
 
 Validation:
@@ -60,7 +60,7 @@ CNN:
   #resnet weighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/RNN/Exp1/trained_model/trained_model_iter_45000_loss_2.2325.pth
   #LSTM
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp3_LSTM/trained_model/trained_model_iter_304000_loss_2.8292.pth
+  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp3_LSTM/trained_model/trained_model_iter_41500_loss_2.4188.pth
   
   #MON MODEL, POUR TESTS
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp2\trained_model\trained_model_iter_10_loss_2.9062.pth

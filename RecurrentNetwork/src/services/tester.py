@@ -55,7 +55,7 @@ class Tester(Manager):
                 self.eval_batch(pred.cpu(), probs, gts.cpu(), batch_number)
                 
         np.save(os.path.join(self.results_path, 'confusion_matrix.npy'), self.confusion_matrix) #self.metrics.confusion_matrix
-        self.results_metrics(self.results_path)
+        #self.results_metrics(self.results_path)
 
     def eval_batch(self, preds, probs, gts, batch_number):  
         if self.config_testing['eval_performance']:    
