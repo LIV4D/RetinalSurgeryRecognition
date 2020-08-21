@@ -5,10 +5,10 @@ import numpy as np
 import random
 import re
 
-from src2.utils.torch_utils import DataParallel
-from src2.dataset.dataset_manager import DatasetManager
-from src2.nnet.cnn import MyNetwork
-from src2.utils.io import create_folder
+from src.utils.torch_utils import DataParallel
+from src.dataset_CNN.dataset_manager import DatasetManager
+from src.nnet.cnn import MyNetwork
+from src.utils.io import create_folder
 
 class Builder:
     def __init__(self, config_file, output_dir):
@@ -26,6 +26,8 @@ class Builder:
             self.network = self.network.cuda(self.device)
         if self.multi_gpu:
             self.network = DataParallel(self.network, device_ids=self.manager_config['gpu'])
+        
+        self.network.eval()
 
     def features_from_CNN(self):
         """
