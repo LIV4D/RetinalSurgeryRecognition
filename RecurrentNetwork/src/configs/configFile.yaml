@@ -7,7 +7,7 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 8 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN)
+  batch_size: 128 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN)
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/Training_Data/'
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
@@ -18,7 +18,7 @@ Dataset:
   num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
   path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights/
-  #◘path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
+  #path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
   rnn_sequence: 100
 
 Validation:
@@ -27,8 +27,8 @@ Validation:
 
 Training:
   nb_epochs: 10
-  loss_type: CE+dice
-  lr: 0.001
+  loss_type: CE
+  lr: 0.1
   b1: 0.9
   b2: 0.99
   weight_decay: 0
@@ -59,8 +59,8 @@ CNN:
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp3/trained_model/trained_model_iter_51500_loss_2.1597.pth
   #resnet weighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/RNN/Exp1/trained_model/trained_model_iter_45000_loss_2.2325.pth
-  #LSTM
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp3_LSTM/trained_model/trained_model_iter_41500_loss_2.4188.pth
+  #LSTM1
+  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp3_LSTM/trained_model/trained_model_iter_41500_loss_2.4188.pth
   
   #MON MODEL, POUR TESTS
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp2\trained_model\trained_model_iter_10_loss_2.9062.pth

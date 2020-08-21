@@ -38,7 +38,7 @@ class MyNetwork_RNN(AbstractNet):
         intermed, (hn, cn) = self.LSTM(input_tensors,(h0, c0))
         output, hn_RNN = self.RNN(intermed, h0_RNN)
         OUT = self.unpad(output)
-        return OUT[0] #retourne un tenseur contenant les sorties du RNN pour chacune des 100 images de la séquence
+        return OUT #retourne un tenseur contenant les sorties du RNN pour chacune des 100 images de la séquence
     
     def unpad(self, x):
         return pad_packed_sequence(x, batch_first=self.batch_first, padding_value = -1, total_length = self.config['Dataset']['rnn_sequence'])[0] #voir doc, selon la dimension de X
