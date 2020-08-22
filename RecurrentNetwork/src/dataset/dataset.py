@@ -77,7 +77,7 @@ class ImagesDataset(Dataset):
                 if self.video_number(tensor) == video:
                     seq_len += 1
                     img = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
-                    print(img, img.shape)
+                    img = img.reshape(1,len(img))
                     sequence_img = torch.cat((sequence_img, img), 0)
                 else: 
                     break
@@ -86,6 +86,7 @@ class ImagesDataset(Dataset):
             for tensor in self.img_filepath[item:]:
                 if self.video_number(tensor) == video:
                     img = torch.load(tensor, map_location = torch.device('cpu'))
+                    img = img.reshape(1,len(img))
                     sequence_img = torch.cat((sequence_img, img), 0) #img.logits
                 else:
                     break
