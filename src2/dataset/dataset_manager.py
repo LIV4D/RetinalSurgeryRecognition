@@ -5,7 +5,7 @@ import os
 from torch.utils.data import DataLoader
 from torch.utils.data import Subset
 
-from .dataset import ImagesDataset
+from .dataset_CNN import ImagesDataset
 
 
 class DatasetManager:

@@ -1,5 +1,5 @@
 Manager:
-  experiment_name: Exp4_LSTM
+  experiment_name: Exp5_LSTM
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/
   #save_point: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\RetinalSurgeryRecognition/RecurrentNetwork\runs\
   gpu: 0 #à modifier selon le nombre de GPU
@@ -7,10 +7,10 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 1 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN) was 128
+  batch_size: 128 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN) was 128
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
-  img_folder: '/home/clement/CATARACTS/Training_Data/'
-  #img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/Training_Data/'
+  #img_folder: '/home/clement/CATARACTS/Training_Data/'
+  img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features_2/Training_Data/'
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Training_Data\'
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\CNN_features\'
@@ -42,7 +42,7 @@ Testing:
   log_file: test_results.log
   eval_performance: True
   batch_size: 1
-  #img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features/Testing_Data/'
+  img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features_2/Testing_Data/'
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\CNN_features\'
 
 CNN:
