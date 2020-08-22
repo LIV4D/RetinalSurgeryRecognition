@@ -77,7 +77,6 @@ class ImagesDataset(Dataset):
                 if self.video_number(tensor) == video:
                     seq_len += 1
                     img = torch.load(tensor, map_location = torch.device('cpu')) #tensor contient à la fois le n° du dossier et le n° de frame
-                    print(img, img.shape)
                     sequence_img = torch.cat((sequence_img, img), 0)
                 else: 
                     break
@@ -93,6 +92,8 @@ class ImagesDataset(Dataset):
         
         seq_len = len(sequence_img)
         
+        print(sequence_img, sequence_img.shape)
+        
         return self.pad_seq(sequence_img), self.pad_seq(sequence_phase), seq_len
     
     def pad_seq(self, array):
@@ -100,7 +101,6 @@ class ImagesDataset(Dataset):
         dtype = array.dtype
         pad = self.RNN_len - shape[0]
         padding = [(0, pad)] + [(0, 0) for _ in shape[1:]]
-        print(shape, self.RNN_len, padding)
         padded_array = np.pad(array.detach(), padding, mode='constant', constant_values=-1)
 
         if dtype==int:
