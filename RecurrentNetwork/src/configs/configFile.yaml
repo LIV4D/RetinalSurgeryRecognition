@@ -9,8 +9,8 @@ Dataset:
   img_size: 512
   batch_size: 128 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN) was 128
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
-  #img_folder: '/home/clement/CATARACTS/Training_Data/'
-  img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features_2/Training_Data/'
+  img_folder: '/home/clement/CATARACTS/Testing_Data/'
+  #img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features_2/Training_Data/'
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Training_Data\'
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\CNN_features\'
@@ -61,7 +61,7 @@ CNN:
   #resnet weighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/RNN/Exp1/trained_model/trained_model_iter_45000_loss_2.2325.pth
   #LSTM1
-  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp3_LSTM/trained_model/trained_model_iter_41500_loss_2.4188.pth
+  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp5_LSTM/trained_model/trained_model_iter_9000_loss_2.8498.pth
   
   #MON MODEL, POUR TESTS
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp2\trained_model\trained_model_iter_10_loss_2.9062.pth
