@@ -100,7 +100,6 @@ class Trainer(Manager):
             
             gts_cat = torch.cat((gts_cat,gts.cpu()),0)
             pred_cat = torch.cat((pred_cat,pred.cpu()),0)
-            out_cat = torch.cat((out_cat,out.cpu()),0)
 
         f1_score = sklearn.metrics.f1_score(gts_cat,pred_cat, average = 'macro')
         Kappa = sklearn.metrics.cohen_kappa_score(gts_cat,pred_cat)
