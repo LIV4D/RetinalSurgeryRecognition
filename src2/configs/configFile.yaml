@@ -7,7 +7,7 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 64 #was 16
+  batch_size: 1 #was 16
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   img_folder: '/home/clement/CATARACTS/Training_Data/'
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'

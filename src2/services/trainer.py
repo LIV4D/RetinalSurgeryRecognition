@@ -4,8 +4,8 @@ import torch.nn as nn
 import os
 import yaml
 import numpy as np
-
 import sklearn.metrics
+
 from src2.services.abstract_manager import Manager
 
 
