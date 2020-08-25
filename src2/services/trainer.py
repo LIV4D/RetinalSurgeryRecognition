@@ -42,6 +42,8 @@ class Trainer(Manager):
             out = self.network(img)
             loss = self.loss(out, gts)
             # Si nécessaire, calculer la loss
+            
+            self.tb_writer.add_scalar('Training Loss', loss, index)
 
             if index % self.config['Validation']['validation_step'] == 0:
                 """
@@ -125,7 +127,7 @@ class Trainer(Manager):
         
         self.tb_writer.add_scalar('Mean AUC_roc', np.nanmean(Mean_roc), current_index)
         self.tb_writer.add_scalar('Accuracy', Accuracy, current_index)
-        self.tb_writer.add_scalar('Loss', np.mean(loss_out), current_index)
+        self.tb_writer.add_scalar('Validation Loss', np.mean(loss_out), current_index)
         
         return np.mean(loss_out)
 #            pass # todo A compléter au besoin
