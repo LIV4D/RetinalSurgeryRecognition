@@ -19,7 +19,7 @@ class DatasetManager:
                              'recursive': self.config['load_recursirvely']}
         self.groundtruth_list = self.get_ground_truth_list(self.groundtruth_path)
         self.dataset = ImagesDataset(self.groundtruth_list, self.config['path_weights'], **self.dataset_args) #on passe le tableau groundtruth directement dans la classe ImagesDataset
-#        self.class_weights = self.get_classes_weights()
+        self.class_weights = self.get_classes_weights()
         print('Found %i images for current experimentation' % len(self.dataset))
         """
         The validation set will only be initialed if build_validation_set is called (for training, not testing)
