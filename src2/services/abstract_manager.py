@@ -4,9 +4,9 @@ import numpy as np
 import os
 from torch.utils.tensorboard import SummaryWriter
 
-from src.utils.torch_utils import DataParallel
-from src.dataset.dataset_manager import DatasetManager
-from src.nnet.cnn import MyNetwork
+from src2.utils.torch_utils import DataParallel
+from src2.dataset.dataset_manager import DatasetManager
+from src2.nnet.cnn import MyNetwork
 
 class Manager:
     def __init__(self, config):

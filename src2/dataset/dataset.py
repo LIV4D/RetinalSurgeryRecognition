@@ -6,7 +6,7 @@ import cv2
 import torch
 import re
 
-from src.utils.io import path_leaf, load_image
+from src2.utils.io import path_leaf, load_image
 
 fileExtensions = ["jpg", "jpeg", "png", "tiff"]
 

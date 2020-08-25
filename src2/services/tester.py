@@ -3,8 +3,8 @@ import os
 import cv2
 import numpy as np
 import sklearn.metrics as skm
-from src.services.abstract_manager import Manager
-from src.utils.io import create_folder
+from src2.services.abstract_manager import Manager
+from src2.utils.io import create_folder
 from torch.utils.tensorboard import SummaryWriter
 import tqdm
 

@@ -6,7 +6,7 @@ import yaml
 import numpy as np
 
 import sklearn.metrics
-from src.services.abstract_manager import Manager
+from src2.services.abstract_manager import Manager
 
 
 class Trainer(Manager):

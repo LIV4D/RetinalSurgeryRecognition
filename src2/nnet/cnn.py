@@ -1,7 +1,7 @@
 from torch import nn
 import torchvision.models.segmentation as models
 import torchvision.models as allmodels
-from src.nnet.abstract_network import AbstractNet
+from src2.nnet.abstract_network import AbstractNet
 from .blocks.core import ConvLayer
 
 def _get_network(network):
