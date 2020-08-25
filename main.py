@@ -6,8 +6,8 @@ from src2.utils.io import create_folder
 from src2.services.trainer import Trainer
 
 #changer experiment_name dans le fichier config
-config_path = 'src/configs/configFile.yaml'
-#config_path = 'src\configs\configFile.yaml'
+config_path = 'src2/configs/configFile.yaml'
+#config_path = 'src2\configs\configFile.yaml'
 
 with open(config_path) as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
