@@ -1,5 +1,5 @@
 Manager:
-  experiment_name: Exp4
+  experiment_name: Exp1_bis
   #save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   save_point: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
   gpu: 0 #à modifier selon le nombre de GPU
@@ -7,14 +7,14 @@ Manager:
 
 Dataset:
   img_size: 512
-  batch_size: 4 #was 16
+  batch_size: 128 #was 16
   #groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   #img_folder: '/home/clement/CATARACTS/Training_Data/'
   groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
   img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Training_Data\'
   load_recursirvely: True
   validation_ratio: 0.2  # From the training size
-  num_workers: 0  # Workers used for parallel data loading MODIFIED, WAS 8
+  num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
   #path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights/
   path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\weights\
@@ -26,7 +26,7 @@ Validation:
   max_batch_validation: 4
 
 Training:
-  nb_epochs: 50
+  nb_epochs: 10
   loss_type: CE+dice
   lr: 0.001
   b1: 0.9

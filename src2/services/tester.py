@@ -29,6 +29,7 @@ class Tester(Manager):
             """
             self.load_best_model()
             
+        self.n_class = self.config['CNN']['n_classes']    
         self.confusion_matrix = 0
         
     def inference(self):
@@ -47,7 +48,7 @@ class Tester(Manager):
                 self.eval_batch(pred.cpu(), probs, gts.cpu(), batch_number)
                 
         np.save(os.path.join(self.results_path, 'confusion_matrix.npy'), self.confusion_matrix) #self.metrics.confusion_matrix
-        self.results_metrics(self.result_path)
+        #self.results_metrics(self.result_path)
 
     def eval_batch(self, preds, probs, gts, batch_number):  
         if self.config_testing['eval_performance']:    
@@ -59,8 +60,7 @@ class Tester(Manager):
     
     
     def report_batch_into_confusion_matrix(self,gts,pred):
-        n_class = self.config['CNN']['n_classes']
-        self.confusion_matrix = self.confusion_matrix + skm.multilabel_confusion_matrix(gts, pred, labels = [i for i in range(0,n_class)])
+        self.confusion_matrix = self.confusion_matrix + skm.confusion_matrix(gts, pred, labels = [i for i in range(0,self.n_class)])
  
     
     def results_metrics(self, save_path):
