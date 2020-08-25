@@ -45,7 +45,7 @@ Testing:
 
 CNN:
   pretrained: True # Pretrained version
-  model: resnet
+  model: inception
   # The following variable is path to an already trained model set of weights. If set,
   # it will override the reading of the a pretrained network (above option).
   # An empty string disables the option.
