@@ -79,15 +79,12 @@ class Trainer(Manager):
         :return: The average validation loss (scalar)
         """    
         loss_out = []
-        n_class = self.config['CNN']['n_classes']
         gts_cat = torch.LongTensor()
         pred_cat = torch.LongTensor()
-        out_cat = torch.FloatTensor()
         Validation = self.datasetManager.get_validation_dataloader()
         length = len(Validation)
         for i, batch in enumerate(Validation):
             print('Batch %i out of %i'%(i,length))
-            index = current_index*length+i
             batch = self.to_device(batch)
             img = batch[0]
             gts = batch[1]
@@ -134,8 +131,8 @@ class Trainer(Manager):
         tribution of the classes on the training set.
         :return:
         """
-        #self.loss = nn.CrossEntropyLoss(weight = self.to_device(self.datasetManager.class_weights))
-        self.loss = nn.CrossEntropyLoss()
+        self.loss = nn.CrossEntropyLoss(weight = self.to_device(self.datasetManager.class_weights))
+        #self.loss = nn.CrossEntropyLoss()
 
     def backward_and_step(self, loss):
         """

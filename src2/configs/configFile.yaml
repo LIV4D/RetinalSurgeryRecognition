@@ -1,5 +1,5 @@
 Manager:
-  experiment_name: Exp1_bis
+  experiment_name: Exp2_bis
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   #save_point: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
   gpu: 0 #à modifier selon le nombre de GPU
