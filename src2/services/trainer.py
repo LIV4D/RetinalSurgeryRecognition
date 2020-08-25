@@ -106,26 +106,12 @@ class Trainer(Manager):
         gts_cat = gts_cat.numpy()
         pred_cat = pred_cat.numpy()
 
-        gts_onehot = self.one_hot(gts_cat, n_class)
-        pred_onehot = self.one_hot(pred_cat, n_class)
-        proba = out_cat.numpy()
-        
-        fpr = dict()
-        tpr = dict()
-        AUC_roc = dict()
-        Mean_roc = []
-        for k in range(n_class):
-            fpr[k], tpr[k], _ = sklearn.metrics.roc_curve(gts_onehot[:,k], proba[:,k])
-            AUC_roc[k] = sklearn.metrics.auc(fpr[k], tpr[k])        
-            self.tb_writer.add_scalar('AUC_Roc classe %i'%k, AUC_roc[k], current_index)
-            #self.tb_writer.add_scalars('Roc classe %i'%k, fpr[k], tpr[k])
-            #pas trouvé comment écrire tout un tableau, faire une boucle ? lent, à voir si intéressant
-            
-            Mean_roc.append(AUC_roc[k])
-            
+        f1_score = sklearn.metrics.f1_score(gts_cat,pred_cat, average = 'macro')
+        Kappa = sklearn.metrics.cohen_kappa_score(gts_cat,pred_cat)
         Accuracy = sklearn.metrics.accuracy_score(gts_cat,pred_cat)  
         
-        self.tb_writer.add_scalar('Mean AUC_roc', np.nanmean(Mean_roc), current_index)
+        self.tb_writer.add_scalar("f1 score",f1_score,current_index)
+        self.tb_writer.add_scalar('Kappa score',Kappa,current_index)
         self.tb_writer.add_scalar('Accuracy', Accuracy, current_index)
         self.tb_writer.add_scalar('Validation Loss', np.mean(loss_out), current_index)
         
