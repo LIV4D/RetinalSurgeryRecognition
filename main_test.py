@@ -1,5 +1,5 @@
 import yaml
-from src.services.tester import Tester
+from src2.services.tester import Tester
 
 config_path = 'src/configs/configFile.yaml'
 
