@@ -51,9 +51,9 @@ CNN:
   # An empty string disables the option.
   # eg: trained_model_path: ../../runs/CityScape-Perspective/trained_model/
   #Inception Unweighted
-  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp1/trained_model/trained_model_iter_42500_loss_2.2453.pth
+  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp1_bis/trained_model/trained_model_iter_31000_loss_2.1088.pth
   #Inception weighted
-  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp2/trained_model/trained_model_iter_48500_loss_2.5815.pth
+  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp2_bis/trained_model/trained_model_iter_87500_loss_2.1164.pth
   #resnet
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp3/trained_model/trained_model_iter_51500_loss_2.1597.pth
   #resnet weighted
