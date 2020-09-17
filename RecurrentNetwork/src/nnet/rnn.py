@@ -13,8 +13,8 @@ class MyNetwork_RNN(AbstractNet):
         self.config = config
         self.batch_first = True
         super(MyNetwork_RNN, self).__init__()
-        h0 = nn.Parameter(torch.zeros(2, 1, 512)) #was (2, 1, 10) pour les deux lignes #was (2, 1, 1024)
-        c0 = nn.Parameter(torch.zeros(2, 1, 512))
+        h0 = nn.Parameter(torch.zeros(2, 1, 1024)) #was (2, 1, 10) pour les deux lignes #was (2, 1, 1024)
+        c0 = nn.Parameter(torch.zeros(2, 1, 1024))
         h0 = h0.cuda()
         c0 = c0.cuda()
         self.h0 = h0
@@ -25,8 +25,8 @@ class MyNetwork_RNN(AbstractNet):
         self.h0_RNN = h0_RNN
         #pas forcément nécessaire
         
-        self.LSTM = nn.LSTM(1024,512,2) #was (2048,1024,2) #was (19, 10, 2)
-        self.RNN = nn.RNN(512, self.config['CNN']['n_classes'], 1) #was (10, 5, 1) #was (1024, self.config['CNN']['n_classes'], 1)
+        self.LSTM = nn.LSTM(2048,1024,2) #was (2048,1024,2) #was (19, 10, 2)
+        self.RNN = nn.RNN(1024, self.config['CNN']['n_classes'], 1) #was (10, 5, 1) #was (1024, self.config['CNN']['n_classes'], 1)
 
     def forward(self, input_tensors, seq_size): #récupérer la batch_size, répéter le h0 pour chaque échantillon du batch
         b = input_tensors.size(0) #batch_size
