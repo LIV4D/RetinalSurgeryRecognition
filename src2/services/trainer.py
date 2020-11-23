@@ -83,7 +83,7 @@ class Trainer(Manager):
         pred_cat = torch.LongTensor()
         Validation = self.datasetManager.get_validation_dataloader()
         length = len(Validation)
-        print('Validation : %i steps', %length)
+        print('\nValidation : %i steps'%length)
         for i, batch in tqdm.tqdm(enumerate(Validation)):
             batch = self.to_device(batch)
             img = batch[0]
