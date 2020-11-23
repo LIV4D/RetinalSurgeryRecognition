@@ -83,7 +83,7 @@ class Trainer(Manager):
         pred_cat = torch.LongTensor()
         Validation = self.datasetManager.get_validation_dataloader()
         length = len(Validation)
-        print('Validation : %i steps', length)
+        print('Validation : %i steps', %length)
         for i, batch in tqdm.tqdm(enumerate(Validation)):
             batch = self.to_device(batch)
             img = batch[0]
@@ -131,8 +131,8 @@ class Trainer(Manager):
         tribution of the classes on the training set.
         :return:
         """
-        self.loss = nn.CrossEntropyLoss(weight = self.to_device(self.datasetManager.class_weights))
-        #self.loss = nn.CrossEntropyLoss()
+        #self.loss = nn.CrossEntropyLoss(weight = self.to_device(self.datasetManager.class_weights))
+        self.loss = nn.CrossEntropyLoss()
 
     def backward_and_step(self, loss):
         """
