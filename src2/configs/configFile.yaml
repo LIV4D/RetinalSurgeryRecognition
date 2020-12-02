@@ -16,8 +16,8 @@ Dataset:
   validation_ratio: 0.2  # From the training size
   num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
-  path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights/
-  #path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\weights\
+  #path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights/
+  path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\weights\
 
 
 
@@ -42,7 +42,9 @@ Testing:
   eval_performance: True
   batch_size: 8
   img_folder: '/home/clement/CATARACTS/Testing_Data/'
+  #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Testing_Data\'
 
+    
 CNN:
   pretrained: True # Pretrained version
   model: inception
@@ -51,6 +53,7 @@ CNN:
   # An empty string disables the option.
   # eg: trained_model_path: ../../runs/CityScape-Perspective/trained_model/
   trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp1/trained_model/trained_model_iter_88000_loss_2.0745.pth
+  #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp1\trained_model\trained_model_iter_0_loss_2.9618.pth
   n_classes: 19
   continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
 
