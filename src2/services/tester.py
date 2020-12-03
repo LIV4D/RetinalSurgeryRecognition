@@ -35,7 +35,6 @@ class Tester(Manager):
     def inference(self):
         with torch.no_grad():
             for i, batch in tqdm.tqdm(enumerate(self.datasetManager.get_dataloader(shuffle=False, drop_last=False))):
-                print('It works')
                 batch = self.to_device(batch)
                 img = batch[0]
                 gts = batch[1]            

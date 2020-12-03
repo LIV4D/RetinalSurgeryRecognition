@@ -140,7 +140,6 @@ class ImagesDataset(Dataset):
             Phase = res[1]
         else:
             Phase = 0
-    
         
         return Phase
         

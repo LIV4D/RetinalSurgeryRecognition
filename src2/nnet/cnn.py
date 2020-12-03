@@ -31,7 +31,7 @@ class MyNetwork(AbstractNet):
             # Quand on fait du transfer learning, on peut choisir de poursuivre l'entrainement de toutes les couches
             # ou uniquement de celles qui ont été modifiées pour la nouvelle tâche.
             for p in self.network.backbone.parameters():
-                p.requires_grad = False
+                p.requires_grad = True
 
         # Un exemple d'utilisation d'une brique concue préalablement et réutilisable ailleurs dans le code.
         """fcn = nn.Sequential(ConvLayer(1024, 256, kernel_size=(3, 3), dropout=0.1, activation='relu', norm='batch'),
