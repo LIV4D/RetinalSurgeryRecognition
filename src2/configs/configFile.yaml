@@ -52,7 +52,7 @@ CNN:
   # it will override the reading of the a pretrained network (above option).
   # An empty string disables the option.
   # eg: trained_model_path: ../../runs/CityScape-Perspective/trained_model/
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp1/trained_model/trained_model_iter_88000_loss_2.0745.pth
+  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp2/trained_model/trained_model_iter_60500_loss_2.0964.pth
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp1\trained_model\trained_model_iter_0_loss_2.9618.pth
   n_classes: 19
   continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
