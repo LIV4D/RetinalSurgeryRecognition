@@ -8,7 +8,7 @@ def _get_network(network):
     return {
         "deeplabv3_resnet101": models.deeplabv3_resnet101,
         "fcn_resnet101": models.fcn_resnet101,
-        "inception": allmodels.inception_v3,
+        "inception": allmodels.inception_v3(pretrained = True, aux_logits = False),
         "resnet": allmodels.resnet50,
     }[network]
 # Il faudra éventuellement remplacer ces modèles par des modèles de classification (ici, ce sont des modèles de segmen-
@@ -24,7 +24,7 @@ class MyNetwork(AbstractNet):
         self.config = config
         super(MyNetwork, self).__init__()
 
-        self.network = _get_network(self.config['model'])(pretrained=self.config['pretrained'], aux_logits = False)
+        self.network = _get_network(self.config['model'])#(pretrained=self.config['pretrained'])
 
         if not self.config['continue_training']:
             for p in self.network.backbone.parameters():
