@@ -6,7 +6,7 @@ Manager:
   seed: 1234
 
 Dataset:
-  img_size: (299, 299) #Inception
+  img_size: 299 #Inception
   #img_size: 224 #Resnet
   batch_size: 1 #was 128
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
