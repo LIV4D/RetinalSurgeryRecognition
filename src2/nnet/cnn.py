@@ -43,7 +43,7 @@ class MyNetwork(AbstractNet):
         
         """Resnet"""
         num_ftrs = self.network.fc.in_features
-        self.network.fc = nn.Linear(num_ftrs, num_classes)
+        self.network.fc = nn.Linear(num_ftrs, self.config['n_classes'])
         
         print(self.network)
 
