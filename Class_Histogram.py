@@ -1,4 +1,3 @@
-from torch.utils.tensorboard import SummaryWriter
 import os
 import pandas as pd
 import re
@@ -18,13 +17,11 @@ def read_phase(groundtruth, img):
     
     return Phase
 
-groundtruth_path = '/home/clement/CATARACTS/GroundTruth/'
-#groundtruth_path = 'C:\\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth'
-savepath = '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/Class_Repartition/'
-#savepath = 'C:\\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Class_repartition'
+#groundtruth_path = '/home/clement/CATARACTS/GroundTruth/'
+groundtruth_path = 'C:\\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth'
+#savepath = '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/Class_Repartition/'
+savepath = 'C:\\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Class_repartition'
 
-
-tb_writer = SummaryWriter(savepath)
 
 dirList = os.listdir(groundtruth_path)
 dirList.sort()
@@ -35,12 +32,16 @@ for dir in dirList:
 
 
 Classes = np.zeros(19, dtype = int)
-for groundtruth in groundtruth_list:
+N = 0
+for groundtruth in groundtruth_list:    
     L = len(groundtruth)
+    #if N in [11,18,21,23,24]:
     for img in range(L):
         Phase = read_phase(groundtruth, img)
+        if Phase == 9 :
+            print(Phase)
         Classes[Phase] += 1
+    #else:
+        #print('Video test')
+    N += 1
     
-for i in range(len(Classes)):
-    print(i, '\n', Classes[i])
-    tb_writer.add_scalar('Répartition des classes', Classes[i], i)
