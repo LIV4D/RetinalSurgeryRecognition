@@ -35,6 +35,7 @@ class MyNetwork(AbstractNet):
                             nn.Conv2d(256, self.config['n_classes'], kernel_size=(1, 1), stride=(1, 1)))"""     
         input_aux = self.network.AuxLogits.fc.in_features
         self.network.AuxLogits.fc = nn.Linear(input_aux, self.config['n_classes'])
+        self.network.AuxLogits = None
         input_main = self.network.fc.in_features
         self.network.fc = nn.Linear(input_main, self.config['n_classes'])
         
