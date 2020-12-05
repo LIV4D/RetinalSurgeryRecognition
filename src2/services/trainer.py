@@ -38,7 +38,7 @@ class Trainer(Manager):
             batch = self.to_device(batch)
             img = batch[0]
             gts = batch[1]
-            # todo: calculer la propagation forward de ton réseau (output = self.network(img) probablement)
+
             out = self.network(img)
             loss = self.loss(out, gts)
             # Si nécessaire, calculer la loss
