@@ -24,7 +24,7 @@ class MyNetwork(AbstractNet):
         self.config = config
         super(MyNetwork, self).__init__()
 
-        self.network = _get_network(self.config['model'])#(pretrained=self.config['pretrained'])
+        self.network = allmodels.inception_v3(pretrained = True, aux_logits = False)#_get_network(self.config['model'])#(pretrained=self.config['pretrained'])
 
         if not self.config['continue_training']:
             for p in self.network.backbone.parameters():
