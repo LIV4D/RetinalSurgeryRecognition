@@ -24,7 +24,7 @@ class MyNetwork(AbstractNet):
         self.config = config
         super(MyNetwork, self).__init__()
 
-        self.network = _get_network(self.config['model'])(pretrained=self.config['pretrained'])
+        self.network = _get_network(self.config['model'])(pretrained=self.config['pretrained'], aux_logits = False)
 
         if not self.config['continue_training']:
             for p in self.network.backbone.parameters():
@@ -34,19 +34,21 @@ class MyNetwork(AbstractNet):
         """fcn = nn.Sequential(ConvLayer(1024, 256, kernel_size=(3, 3), dropout=0.1, activation='relu', norm='batch'),
                             nn.Conv2d(256, self.config['n_classes'], kernel_size=(1, 1), stride=(1, 1)))"""     
         """Inception"""
-        """
-        input_aux = self.network.AuxLogits.fc.in_features
-        self.network.AuxLogits.fc = nn.Linear(input_aux, self.config['n_classes'])
+
+        #input_aux = self.network.AuxLogits.fc.in_features
+        #self.network.AuxLogits.fc = nn.Linear(input_aux, self.config['n_classes'])
         input_main = self.network.fc.in_features
         self.network.fc = nn.Linear(input_main, self.config['n_classes'])
-        """
+        
         
         """Resnet"""
+        """
         num_ftrs = self.network.fc.in_features
         self.network.fc = nn.Linear(num_ftrs, self.config['n_classes'])
-        
+        """
         print(self.network)
 
     def forward(self, input_tensors):
-        return self.network(input_tensors)#[0]
+        print(self.network(input_tensors))
+        return self.network(input_tensors)[0]
     
