@@ -6,7 +6,7 @@ Manager:
   seed: 1234
 
 Dataset:
-  img_size: 512
+  img_size: 299
   batch_size: 128 #was 128
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   img_folder: '/home/clement/CATARACTS/Training_Data/'
@@ -47,7 +47,7 @@ Testing:
     
 CNN:
   pretrained: True # Pretrained version
-  model: resnet
+  model: inception
   # The following variable is path to an already trained model set of weights. If set,
   # it will override the reading of the a pretrained network (above option).
   # An empty string disables the option.

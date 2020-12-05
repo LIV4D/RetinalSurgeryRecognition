@@ -25,20 +25,20 @@ class MyNetwork(AbstractNet):
         super(MyNetwork, self).__init__()
 
         self.network = _get_network(self.config['model'])(pretrained=self.config['pretrained'])
-#        self.network.aux_logits = None
 
         if not self.config['continue_training']:
-            # Quand on fait du transfer learning, on peut choisir de poursuivre l'entrainement de toutes les couches
-            # ou uniquement de celles qui ont été modifiées pour la nouvelle tâche.
             for p in self.network.backbone.parameters():
                 p.requires_grad = True
 
         # Un exemple d'utilisation d'une brique concue préalablement et réutilisable ailleurs dans le code.
         """fcn = nn.Sequential(ConvLayer(1024, 256, kernel_size=(3, 3), dropout=0.1, activation='relu', norm='batch'),
                             nn.Conv2d(256, self.config['n_classes'], kernel_size=(1, 1), stride=(1, 1)))"""     
+        input_aux = self.network.AuxLogits.fc.in_features
+        self.network.AuxLogits.fc = nn.Linear(input_aux, self.config['n_classes'])
+        input_main = self.network.fc.in_features
+        self.network.fc = nn.Linear(input_main, self.config['n_classes'])
         
-        fcn = nn.Sequential(nn.Linear(2048, 1000, bias = True),nn.Linear(1000, self.config['n_classes'], bias = True))
-        self.network.fc = fcn
+        print(self.network)
 
     def forward(self, input_tensors):
         return self.network(input_tensors)[0]
