@@ -49,6 +49,5 @@ class MyNetwork(AbstractNet):
         print(self.network)
 
     def forward(self, input_tensors):
-        print(self.network(input_tensors))
-        return self.network(input_tensors)[0]
+        return self.network(input_tensors)
     
