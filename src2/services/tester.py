@@ -21,13 +21,15 @@ class Tester(Manager):
         create_folder(self.results_path)
 #        if self.config_testing['save_prediction']:
 #            create_folder(self.prediction_path)
-
+        
         if not self.config['CNN']['trained_model_path']:
             """
             First check if the user asked for a particular model loading (which would already be done by the Manager).
             If not, load the latest file present in the experiment folder
             """
             self.load_best_model()
+        else:
+            self.load(self.config['CNN']['trained_model_path'])
             
         self.n_class = self.config['CNN']['n_classes']    
         self.confusion_matrix = 0
