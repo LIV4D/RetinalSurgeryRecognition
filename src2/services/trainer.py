@@ -39,9 +39,10 @@ class Trainer(Manager):
             img = batch[0]
             gts = batch[1]
 
+            #add filter here !
+
             out = self.network(img)
             loss = self.loss(out, gts)
-            # Si nécessaire, calculer la loss
             
             self.tb_writer.add_scalar('Training Loss', loss, index)
 
@@ -108,8 +109,6 @@ class Trainer(Manager):
         self.tb_writer.add_scalar('Validation Loss', np.mean(loss_out), current_index)
         
         return np.mean(loss_out)
-#            pass # todo A compléter au besoin
-            #sklearn
 
 
     def setup_optims(self):
