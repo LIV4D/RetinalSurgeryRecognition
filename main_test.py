@@ -6,7 +6,7 @@ config_path = 'src2/configs/configFile.yaml'
 with open(config_path) as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
-tester = Tester(config, '1')
+tester = Tester(config, '2')
 tester.inference()
 
 

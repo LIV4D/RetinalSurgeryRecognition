@@ -30,6 +30,7 @@ class Tester(Manager):
             self.load_best_model()
         else:
             self.network.load(self.config['CNN']['trained_model_path'])
+            print('Loaded')
             
         self.n_class = self.config['CNN']['n_classes']    
         self.confusion_matrix = 0
