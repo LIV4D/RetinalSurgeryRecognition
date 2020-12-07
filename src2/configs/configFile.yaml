@@ -6,7 +6,7 @@
 ##EXP9 = RESNET, 18 classes -9 -12, filtrage
 
 Manager:
-  experiment_name: Exp7
+  experiment_name: Exp8
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   gpu: 0 #à modifier selon le nombre de GPU
   seed: 1234
@@ -19,8 +19,8 @@ Dataset:
   img_size: 224 #Resnet
   batch_size: 8
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
-  #img_folder: '/home/clement/CATARACTS/Training_Data/'
-  img_folder: '/home/clement/CATARACTS/Training_zero/' #class 0 removed
+  img_folder: '/home/clement/CATARACTS/Training_Data/'
+  #img_folder: '/home/clement/CATARACTS/Training_zero/' #class 0 removed
   
   ##code test for debug
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
@@ -38,7 +38,7 @@ Validation:
   max_batch_validation: 4
 
 Training:
-  nb_epochs: 5
+  nb_epochs: 2
   loss_type: CE+dice
   lr: 0.001
   b1: 0.9
@@ -53,8 +53,8 @@ Testing:
   save_prediction: True
   eval_performance: True
   batch_size: 1
-  #img_folder: '/home/clement/CATARACTS/Testing_Data/'
-  img_folder: '/home/clement/CATARACTS/Testing_zero/' #class 0 removed
+  img_folder: '/home/clement/CATARACTS/Testing_Data/'
+  #img_folder: '/home/clement/CATARACTS/Testing_zero/' #class 0 removed
   
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Testing_Data\'
 
@@ -70,11 +70,11 @@ CNN:
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp5/trained_model/trained_model_iter_82000_loss_2.0386.pth
   
   ##Exp6
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp6/trained_model/trained_model_iter_123000_loss_2.0534.pth
+  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp6/trained_model/trained_model_iter_123000_loss_2.0534.pth
 
   ##code test for debug
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp1\trained_model\trained_model_iter_0_loss_2.9618.pth
   
   n_classes: 19
-  continue_training: True # If False, only the last FCN layers are trained (the rest of the network being fixed).
+  continue_training: False # If False, only the last FCN layers are trained (the rest of the network being fixed).
 

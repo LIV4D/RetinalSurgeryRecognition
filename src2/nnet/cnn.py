@@ -28,7 +28,7 @@ class MyNetwork(AbstractNet):
 
         if not self.config['continue_training']:
             for p in self.network.backbone.parameters():
-                p.requires_grad = True
+                p.requires_grad = False
 
         # Un exemple d'utilisation d'une brique concue préalablement et réutilisable ailleurs dans le code.
         """fcn = nn.Sequential(ConvLayer(1024, 256, kernel_size=(3, 3), dropout=0.1, activation='relu', norm='batch'),
