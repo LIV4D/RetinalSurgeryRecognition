@@ -6,7 +6,7 @@
 ##EXP9 = RESNET, 18 classes -9 -12, filtrage
 
 Manager:
-  experiment_name: Exp6
+  experiment_name: Exp7
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   gpu: 0 #à modifier selon le nombre de GPU
   seed: 1234
@@ -19,8 +19,8 @@ Dataset:
   img_size: 224 #Resnet
   batch_size: 8
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
-  img_folder: '/home/clement/CATARACTS/Training_Data/'
-  #img_folder: '/home/clement/CATARACTS/Training_zero/' #class 0 removed
+  #img_folder: '/home/clement/CATARACTS/Training_Data/'
+  img_folder: '/home/clement/CATARACTS/Training_zero/' #class 0 removed
   
   ##code test for debug
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
@@ -53,8 +53,8 @@ Testing:
   save_prediction: True
   eval_performance: True
   batch_size: 1
-  img_folder: '/home/clement/CATARACTS/Testing_Data/'
-  #img_folder: '/home/clement/CATARACTS/Testing_zero/' #class 0 removed
+  #img_folder: '/home/clement/CATARACTS/Testing_Data/'
+  img_folder: '/home/clement/CATARACTS/Testing_zero/' #class 0 removed
   
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Testing_Data\'
 
