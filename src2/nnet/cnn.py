@@ -27,7 +27,7 @@ class MyNetwork(AbstractNet):
         self.network = _get_network(self.config['model'])(pretrained=self.config['pretrained'])
 
         if not self.config['continue_training']:
-            for p in self.network.backbone.parameters():
+            for p in self.network.parameters():
                 p.requires_grad = False
 
         # Un exemple d'utilisation d'une brique concue préalablement et réutilisable ailleurs dans le code.
