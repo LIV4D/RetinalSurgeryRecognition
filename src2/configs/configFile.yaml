@@ -2,7 +2,8 @@
 ##EXP5 = RESNET, 18 classes -9 -12 -0
 ##EXP6 = RESNET, 18 classes -9 -12, weights
 ##EXP7 = RESNET, 18 classes -9 -12 -0, weights
-##EXP8 = RESNET, 18 classes -9 -12, filtrage
+##EXP8 = RESNET, 18 classes -9 -12, training only last layers
+##EXP9 = RESNET, 18 classes -9 -12, filtrage
 
 Manager:
   experiment_name: Exp6
