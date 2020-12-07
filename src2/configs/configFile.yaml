@@ -1,5 +1,11 @@
+##EXP4 = RESNET, 18 classes -9 -12
+##EXP5 = RESNET, 18 classes -9 -12 -0
+##EXP6 = RESNET, 18 classes -9 -12, weights
+##EXP7 = RESNET, 18 classes -9 -12 -0, weights
+##EXP8 = RESNET, 18 classes -9 -12, filtrage
+
 Manager:
-  experiment_name: Exp5
+  experiment_name: Exp6
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   gpu: 0 #à modifier selon le nombre de GPU
   seed: 1234
@@ -12,8 +18,8 @@ Dataset:
   img_size: 224 #Resnet
   batch_size: 8
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
-  #img_folder: '/home/clement/CATARACTS/Training_Data/'
-  img_folder: '/home/clement/CATARACTS/Training_zero/' #class 0 removed
+  img_folder: '/home/clement/CATARACTS/Training_Data/'
+  #img_folder: '/home/clement/CATARACTS/Training_zero/' #class 0 removed
   
   ##code test for debug
   #groundtruth_path: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\GroundTruth\'
@@ -46,8 +52,8 @@ Testing:
   save_prediction: True
   eval_performance: True
   batch_size: 1
-  #img_folder: '/home/clement/CATARACTS/Testing_Data/'
-  img_folder: '/home/clement/CATARACTS/Testing_zero/' #class 0 removed
+  img_folder: '/home/clement/CATARACTS/Testing_Data/'
+  #img_folder: '/home/clement/CATARACTS/Testing_zero/' #class 0 removed
   
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Testing_Data\'
 
@@ -61,6 +67,8 @@ CNN:
   
   ##Exp5
   trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp5/trained_model/trained_model_iter_82000_loss_2.0386.pth
+  
+  ##Exp6
 
   ##code test for debug
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp1\trained_model\trained_model_iter_0_loss_2.9618.pth
