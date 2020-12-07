@@ -67,9 +67,10 @@ CNN:
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp4/trained_model/trained_model_iter_156000_loss_2.0457.pth
   
   ##Exp5
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp5/trained_model/trained_model_iter_82000_loss_2.0386.pth
+  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp5/trained_model/trained_model_iter_82000_loss_2.0386.pth
   
   ##Exp6
+  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/Exp6/trained_model/trained_model_iter_123000_loss_2.0534.pth
 
   ##code test for debug
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp1\trained_model\trained_model_iter_0_loss_2.9618.pth
