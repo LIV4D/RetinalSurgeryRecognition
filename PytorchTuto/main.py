@@ -297,7 +297,7 @@ else:
             print("\t",name)
 
 # Observe that all parameters are being optimized
-optimizer_ft = optim.Adam(params_to_update, lr=0.001, beta_1=0.99, beta_2 = 0.999)
+optimizer_ft = optim.Adam(params_to_update, lr=0.001, betas=(0.9, 0.999))
 
 ###############################################################################
 
