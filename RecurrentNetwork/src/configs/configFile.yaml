@@ -1,13 +1,13 @@
 Manager:
-  experiment_name: Final_couche_modified1
-  save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/
+  experiment_name: Exp9
+  save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   #save_point: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\RetinalSurgeryRecognition/RecurrentNetwork\runs\
   gpu: 0 #à modifier selon le nombre de GPU
   seed: 1234
 
 Dataset:
-  img_size: 512
-  batch_size: 128 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN) was 128
+  img_size: 224
+  batch_size: 8 #DOIT ETRE MISE à 1 POUR LA COLLECTE DES FEATURES VIA LE CNN (pour l'utilisation du RNN)
   groundtruth_path: '/home/clement/CATARACTS/GroundTruth/'
   #img_folder: '/home/clement/CATARACTS/Testing_Data/'
   img_folder: '/home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/CNN_features_2/Training_Data/'
@@ -19,7 +19,6 @@ Dataset:
   num_workers: 8  # Workers used for parallel data loading MODIFIED, WAS 8
   pin_memory: True  # Place loaded data in the CPU to GPU buffer.
   path_weights: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/weights/
-  #path_weights: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\
   rnn_sequence: 100
 
 Validation:
@@ -27,7 +26,7 @@ Validation:
   max_batch_validation: 4
 
 Training:
-  nb_epochs: 10
+  nb_epochs: 3
   loss_type: CE
   lr: 0.1
   b1: 0.9
@@ -47,7 +46,7 @@ Testing:
 
 CNN:
   pretrained: True # Pretrained version
-  model: inception
+  model: resnet
   # The following variable is path to an already trained model set of weights. If set,
   # it will override the reading of the a pretrained network (above option).
   # An empty string disables the option.
@@ -61,7 +60,7 @@ CNN:
   #resnet weighted
   #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/RNN/Exp1/trained_model/trained_model_iter_45000_loss_2.2325.pth
   #LSTM1
-  trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp5_LSTM/trained_model/trained_model_iter_9000_loss_2.8498.pth
+  #trained_model_path: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/RecurrentNetwork/runs/Exp5_LSTM/trained_model/trained_model_iter_9000_loss_2.8498.pth
   
   #MON MODEL, POUR TESTS
   #trained_model_path: C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\runs\PhaseRecognition\Exp2\trained_model\trained_model_iter_10_loss_2.9062.pth

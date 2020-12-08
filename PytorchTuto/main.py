@@ -219,7 +219,7 @@ def create_folder(folder_path):
 
 # Top level data directory. Here we assume the format of the directory conforms
 #   to the ImageFolder structure
-data_dir = '/home/clement/CATARACTS/PytorchData/train/'
+data_dir = '/home/clement/CATARACTS/PytorchData/'
 
 # Models to choose from [resnet, alexnet, vgg, squeezenet, densenet, inception]
 model_name = "resnet"
