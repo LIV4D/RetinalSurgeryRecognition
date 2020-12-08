@@ -1,4 +1,19 @@
-def train_model(model, dataloaders, criterion, optimizer, num_epochs=25, is_inception=False):
+from __future__ import print_function
+from __future__ import division
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+import torchvision
+from torchvision import datasets, models, transforms
+import matplotlib.pyplot as plt
+import time
+import os
+from os.path import join
+import copy
+from Functions import initialize_model, train_model, set_parameter_requires_grad, save_model, create_folder
+
+def train_model(model, dataloaders, criterion, optimizer, device, num_epochs=25, is_inception=False):
     since = time.time()
 
     val_acc_history = []
@@ -175,9 +190,6 @@ def save_model(model, filename='trained_model',
 
         path = savepoint
 
-        if use_datetime:
-            today = str(datetime.datetime.now().date())
-            path = join(path, today + '/')
         create_folder(path)
         path = join(path, filename)
 
