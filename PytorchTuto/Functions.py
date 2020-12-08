@@ -186,4 +186,9 @@ def save_model(model, filename='trained_model',
             save_dict['optim_%i' % i] = optim.state_dict()
 
         torch.save(save_dict, path)
+        
+        
+def create_folder(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 

@@ -11,7 +11,7 @@ import time
 import os
 from os.path import join
 import copy
-import Functions
+from Functions import initialize_model, train_model, set_parameter_requires_grad, save_model, create_folder
 print("PyTorch Version: ",torch.__version__)
 print("Torchvision Version: ",torchvision.__version__)
 
