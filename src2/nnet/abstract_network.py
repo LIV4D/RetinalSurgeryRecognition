@@ -41,7 +41,6 @@ class AbstractNet(nn.Module):
             filename += '.pth'
 
         path = self.savepoint + '/'
-        #was '/'
 
         if use_datetime:
             today = str(datetime.datetime.now().date())
