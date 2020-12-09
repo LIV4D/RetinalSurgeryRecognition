@@ -28,6 +28,7 @@ class Tester(Manager):
         else:
             #self.network.load(self.config['CNN']['trained_model_path'])
             self.network.load('/home/clement/Documents/Lucas/RetinalSurgeryRecognition/PytorchTuto/trained_model_resnet.pth', ignore_nan=True)
+            self.network.eval()
             print('Loaded')
             
         self.n_class = self.config['CNN']['n_classes']    
