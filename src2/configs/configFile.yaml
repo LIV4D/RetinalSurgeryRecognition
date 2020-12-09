@@ -3,10 +3,10 @@
 ##EXP6 = RESNET, 18 classes -9 -12, weights
 ##EXP7 = RESNET, 18 classes -9 -12 -0, weights
 ##EXP8 = RESNET, 18 classes -9 -12, training only last layers
-##EXP9 = RESNET + LSTM, 18 classes -9 -12
+##EXP9 = RESNET par Pytorch, 18 classes -9 -12
 
 Manager:
-  experiment_name: Exp8
+  experiment_name: Exp9
   save_point: /home/clement/Documents/Lucas/RetinalSurgeryRecognition/runs/
   gpu: 0 #à modifier selon le nombre de GPU
   seed: 1234
