@@ -27,7 +27,7 @@ class Tester(Manager):
             self.load_best_model()
         else:
             #self.network.load(self.config['CNN']['trained_model_path'])
-            self.network.load_state_dict(torch.load('/home/clement/Documents/Lucas/RetinalSurgeryRecognition/PytorchTuto/trained_model_resnet.pth'))
+            self.network.load('/home/clement/Documents/Lucas/RetinalSurgeryRecognition/PytorchTuto/trained_model_resnet.pth')
             print('Loaded')
             
         self.n_class = self.config['CNN']['n_classes']    

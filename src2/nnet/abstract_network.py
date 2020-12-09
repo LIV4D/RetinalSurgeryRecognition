@@ -60,7 +60,7 @@ class AbstractNet(nn.Module):
             path = get_most_recent_file(path)
             print("Loading model from ", path)
 
-        state_dict = torch.load(path, map_location=device)['model_state_dict']
+        state_dict = torch.load(path, map_location=device)#['model_state_dict']
         if not ignore_nan:
             check_nan(state_dict)
         self.load_state_dict(state_dict, strict=strict)
