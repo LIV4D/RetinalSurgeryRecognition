@@ -53,7 +53,7 @@ Testing:
   save_prediction: True
   eval_performance: True
   batch_size: 1
-  img_folder: '/home/clement/CATARACTS/Testing_Data/'
+  img_folder: '/home/clement/CATARACTS/Training_Data/'
   #img_folder: '/home/clement/CATARACTS/Testing_zero/' #class 0 removed
   
   #img_folder: 'C:\Users\lucas\OneDrive\Documents\Professionnel\StageMontreal2020\Python\Testing_Data\'
