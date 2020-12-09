@@ -199,7 +199,7 @@ def save_model(model, filename='trained_model',
         create_folder(path)
         path = join(path, filename)
 
-        save_dict = dict(model.state_dict)
+        save_dict = dict(model.state_dict())
         for i, optim in enumerate(optimizers):
             save_dict['optim_%i' % i] = optim.state_dict()
 
