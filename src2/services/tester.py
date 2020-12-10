@@ -45,7 +45,8 @@ class Tester(Manager):
                 probs = self.softmax(out)
                 pred = torch.argmax(out, 1, keepdim = True)
                 pred = pred.view(-1)               
-                              
+                print('Predictions : ', pred)
+                print('\nTruth : ', gts)
                 batch_number = str(i)                
                 self.eval_batch(pred.cpu(), probs, gts.cpu(), batch_number)
                 
